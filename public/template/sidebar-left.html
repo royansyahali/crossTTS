@@ -1,6 +1,28 @@
 <div class="sidebar-inner c-overflow">    
+    <div class="profile-menu">
+        <a href="" ng-style="mactrl.profileBgImage" toggle-submenu>
+            <div class="profile-pic">
+                <img ng-show="profile.logged_in" src="{{profile.profile_image_url}}" alt="">
+            </div>
+
+            <div class="profile-info" ng-show="profile.logged_in">
+                <div>{{profile.fullname}}</div>
+
+                <i class="zmdi zmdi-caret-down"></i>
+            </div>
+        </a>
+
+        <ul class="main-menu">
+            <li>
+                <a href="" ng-click="mactrl.logout()"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
 
     <ul class="main-menu">
+        <li data-ui-sref-active="active" ng-hide="profile.logged_in">
+            <a data-ui-sref="login" href="#" onclick="window.open('/auth/twitter','auth','width=500,height=450');return false;"><i class="zmdi zmdi-sign-in"></i> Login</a>
+        </li>
         <li data-ui-sref-active="active">
             <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
         </li>

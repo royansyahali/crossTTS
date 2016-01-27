@@ -24,6 +24,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
+	public $timestamps = FALSE;
+    
+    public function twitter(){
+        return $this->belongsTo('App\Models\TwitterUser', 'twitter_user_id');
+    }
+    
     public function puzzles(){
         return $this->hasMany(Puzzle::class);
     }
@@ -31,4 +37,5 @@ class User extends Authenticatable
     public static function findByUserName($username){
         return self::where('username', $username)->first();
     }
+    
 }

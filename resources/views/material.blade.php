@@ -109,6 +109,7 @@
         <script src="vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
         <script src="vendors/bower_components/angular-nouislider/src/nouislider.min.js"></script>
         
+        <script src="js/cw.js"></script>
         
         <!-- App level -->
         <script src="js/app.js"></script>
@@ -121,6 +122,7 @@
         <script src="js/controllers/puzzle.js"></script>
 
         <!-- Services -->
+        <script src="js/services/profile.js"></script>
         <script src="js/services/puzzle.js"></script>
 
         <!-- Filters -->
