@@ -11,9 +11,9 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function show($username){
+    public function showPuzzles($username){
         $user = User::findByUserName($username);
         
-        return view('users.show', compact('user'));
+        return $user->puzzles;
     }
 }

@@ -118,8 +118,10 @@
         <script src="js/controllers/ui-bootstrap.js"></script>
         <script src="js/controllers/dashboard.js"></script>
         <script src="js/controllers/table.js"></script>
+        <script src="js/controllers/puzzle.js"></script>
 
         <!-- Services -->
+        <script src="js/services/puzzle.js"></script>
 
         <!-- Filters -->
         <script src="js/filters/ordinal.js"></script>
