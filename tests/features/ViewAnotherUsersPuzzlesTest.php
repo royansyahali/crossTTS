@@ -18,11 +18,11 @@ class ViewAnotherUsersPuzzlesTest extends TestCase
      */
     public function testViewingAnotherUsersPuzzles()
     {   
-        $user = factory(User::class)->create(['username' => 'johndoe']);
+        $user = factory(User::class)->create(['username' => 'johndoe2']);
         $puzzle = factory(Puzzle::class)->make(['name' => 'My first puzzle']);
         
         $user->puzzles()->save($puzzle);
         
-        $this->visit('/johndoe/puzzles')->see('My first puzzle');
+        $this->visit('/johndoe2/puzzles')->see('My first puzzle');
     }
 }

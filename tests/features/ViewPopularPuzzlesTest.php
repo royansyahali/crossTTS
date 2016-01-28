@@ -18,7 +18,7 @@ class ViewPopularPuzzlesTest extends TestCase
      */
     public function testViewingPopularPuzzles()
     {   
-        $user = factory(User::class)->create(['username' => 'johndoe']);
+        $user = factory(User::class)->create(['username' => 'johndoe1']);
         $user->puzzles()->save(factory(Puzzle::class)->make(['name' => 'My first puzzle']));
         $user->puzzles()->save(factory(Puzzle::class)->make(['name' => 'My second puzzle']));
         $user->puzzles()->save(factory(Puzzle::class)->make(['name' => 'My third puzzle']));

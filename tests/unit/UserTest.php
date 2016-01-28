@@ -12,7 +12,7 @@ class UserTest extends TestCase
     
     public function testAUserCanBeFoundByUsername()
     {
-        $createdUser = factory(User::class)->create(['username' => 'janedoe']);
+        $createdUser = factory(User::class)->create(['username' => 'janedoe', 'name' => 'Jane Doe', 'created_timestamp_utc' => 1, 'updated_timestamp_utc' => 1]);
         
         $foundUser = User::findByUsername('janedoe');
         

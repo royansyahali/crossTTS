@@ -34,6 +34,10 @@ class User extends Authenticatable
         return $this->hasMany(Puzzle::class);
     }
     
+    public function puzzleTemplates(){
+        return $this->hasMany(PuzzleTemplate::class);
+    }
+    
     public static function findByUserName($username){
         return self::where('username', $username)->first();
     }
