@@ -8,7 +8,7 @@ use App\Models\Puzzle;
 use App\Models\PuzzleTemplate;
 use App\Models\User;
 
-class CreateAPuzzleTemplateTest extends TestCase
+class ViewAPuzzleTemplateTest extends TestCase
 {
     use DatabaseMigrations;
         
@@ -17,10 +17,14 @@ class CreateAPuzzleTemplateTest extends TestCase
      *
      * @return void
      */
-    public function testCreatingAPuzzleTemplate()
+    public function testViewingAPuzzleTemplate()
     {   
         $user = factory(User::class)->create(['username' => 'johndoe3']);
-        $puzzleTemplate = factory(PuzzleTemplate::class)->make(['name' => 'My first puzzle template', 'width' => 5, 'height' => 5]);
+        $puzzleTemplate = factory(PuzzleTemplate::class)->make([
+            'name' => 'My first puzzle template', 
+            'width' => 5, 
+            'height' => 5
+        ]);
         
         $user->puzzleTemplates()->save($puzzleTemplate);
         

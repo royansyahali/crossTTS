@@ -1,0 +1,60 @@
+<div class="container" data-ng-controller="puzzleTemplateCtrl as ptctrl">
+    <div class="card">
+        <div class="card-header">
+            <h2>Template Settings</h2>
+        </div>
+        <div class="card-body card-padding">
+            <div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <div class="fg-line">
+                                <input type="text" class="form-control" ng-model="ptctrl.name" placeholder="My Template">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>Width</label>
+                            <div class="fg-line">
+                                <input type="number" class="form-control" ng-model="ptctrl.width" min="5" max="20" ng-change="ptctrl.changeWidth()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>Height</label>
+                            <div class="fg-line">
+                                <input type="number" class="form-control" ng-model="ptctrl.height" min="5" max="20" ng-change="ptctrl.changeHeight()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 checkbox" >
+                        <div class="form-group">
+                            <label>
+                                <div class="heat-zone-pitch heat-zone-ball" style="z-index:0"></div>&nbsp;&nbsp;&nbsp;Force Symmetry
+                                <input type="checkbox" ng-model="ptctrl.forceSymmetry" ng-change="ptctrl.symmetryClick()">
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Puzzle Template</h2> <div><small></div></small>
+        </div>
+        <div class="card-body">
+            <div class="puzzle">
+                <table>
+                    <tr ng-repeat="row in ptctrl.range(1,ptctrl.width)" >
+                        <td class="pointy" ng-class="{'black' : ptctrl.isBlackSquare(row, col)}" ng-repeat="col in ptctrl.range(1, ptctrl.height)" data-row="{{row}}" data-col="{{col}}" ng-click="ptctrl.changeBlock(row, col)"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

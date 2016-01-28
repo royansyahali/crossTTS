@@ -19,6 +19,7 @@
         
         <link href="css/app.css" rel="stylesheet">
         <link href="css/demo.css" rel="stylesheet">
+        <link href="css/cw.css" rel="stylesheet">
 
     </head>
 
@@ -120,6 +121,7 @@
         <script src="js/controllers/dashboard.js"></script>
         <script src="js/controllers/table.js"></script>
         <script src="js/controllers/puzzle.js"></script>
+        <script src="js/controllers/puzzleTemplate.js"></script>
 
         <!-- Services -->
         <script src="js/services/profile.js"></script>

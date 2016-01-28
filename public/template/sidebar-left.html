@@ -26,8 +26,13 @@
         <li data-ui-sref-active="active">
             <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
         </li>
-        <li data-ng-class="{ 'active toggled': mactrl.$state.includes('puzzles') }">
-            <a data-ui-sref="puzzles.list" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-view-list"></i> Puzzles</a>
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('puzzles') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-collection-text"></i> Puzzles</a>
+
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="puzzles.new-puzzle-template" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle Template</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="puzzles.new-puzzle" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle </a></li>
+            </ul>
         </li>
     </ul>
 </div>

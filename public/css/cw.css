@@ -1,0 +1,18 @@
+.pointy{
+    cursor:pointer;
+}
+.puzzle{
+    text-align: center;
+    padding:15px;
+}
+.puzzle table{
+    margin: 0 auto;
+}
+.puzzle table td{
+    border:1px solid black;
+    width:25px;
+    height:25px;
+}
+.puzzle table td.black{
+    background-color:black;
+}
