@@ -34,7 +34,7 @@ $factory->define(PuzzleTemplate::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->sentence,
         'slug' => $faker->md5,
-        'created_timestamp_utc' => $faker->randomDigitNotNull,
-        'updated_timestamp_utc' => $faker->randomDigitNotNull,
+        'timestamp_utc' => $faker->randomDigitNotNull,
     ];
 });
+

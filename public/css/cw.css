@@ -3,7 +3,7 @@
 }
 .puzzle{
     text-align: center;
-    padding:15px;
+    padding:5px 5px 50px;
 }
 .puzzle table{
     margin: 0 auto;
@@ -15,4 +15,9 @@
 }
 .puzzle table td.black{
     background-color:black;
+}
+.bottom-right-button{
+    position:absolute;
+    bottom:10px;
+    right:10px;
 }

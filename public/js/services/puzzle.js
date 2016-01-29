@@ -7,4 +7,14 @@ materialAdmin
                 url: "/puzzles"
               });
         };
+        
+        this.createTemplate = function(template){
+            return $http({
+                method: 'post',
+                url: '/puzzleTemplates',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(template)
+            });
+        };
+        
     }])

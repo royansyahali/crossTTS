@@ -33,7 +33,7 @@
                     <div class="col-sm-2 checkbox" >
                         <div class="form-group">
                             <label>
-                                <div class="heat-zone-pitch heat-zone-ball" style="z-index:0"></div>&nbsp;&nbsp;&nbsp;Force Symmetry
+                                <div class="heat-zone-pitch heat-zone-ball" style="z-index:0"></div>&nbsp;&nbsp;&nbsp;Force Radial Symmetry
                                 <input type="checkbox" ng-model="ptctrl.forceSymmetry" ng-change="ptctrl.symmetryClick()">
                                 <i class="input-helper"></i>
                             </label>
@@ -54,6 +54,9 @@
                         <td class="pointy" ng-class="{'black' : ptctrl.isBlackSquare(row, col)}" ng-repeat="col in ptctrl.range(1, ptctrl.height)" data-row="{{row}}" data-col="{{col}}" ng-click="ptctrl.changeBlock(row, col)"></td>
                     </tr>
                 </table>
+                <div class="row">
+                    <div class="btn btn-primary bottom-right-button" ng-click="ptctrl.createTemplate()">Create Template</div>
+                </div>
             </div>
         </div>
     </div>

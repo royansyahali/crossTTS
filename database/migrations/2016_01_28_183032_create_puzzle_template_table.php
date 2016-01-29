@@ -22,19 +22,16 @@ class CreatePuzzleTemplateTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->tinyInteger('symmetrical')->default(1);
-            $table->integer('created_timestamp_utc')->unsigned();
-            $table->integer('updated_timestamp_utc')->unsigned();
+            $table->integer('timestamp_utc')->unsigned();
         });
         
         Schema::create('puzzle_template_squares', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('puzzle_template_id')->unsigned();
             $table->foreign('puzzle_template_id')->references('id')->on('puzzle_templates');
-            $table->integer('x');
-            $table->integer('y');
+            $table->integer('row');
+            $table->integer('col');
             $table->enum('square_type', array('white', 'black', 'circle'));
-            $table->integer('created_timestamp_utc')->unsigned();
-            $table->integer('updated_timestamp_utc')->unsigned();
         });
     }
 
