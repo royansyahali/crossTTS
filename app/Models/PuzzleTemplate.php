@@ -46,8 +46,9 @@ class PuzzleTemplate extends Model {
             $pt->slug = PuzzleTemplate::findSlug($args['name']);
             $pt->save();
             
-            for($col = 1; $col <= $pt->width; $col++){
-                for($row = 1; $row <= $pt->height; $row++){
+            $clue_number = 1;
+            for($row = 1; $row <= $pt->height; $row++){
+                for($col = 1; $col <= $pt->width; $col++){
                     $sq = new PuzzleTemplateSquare;
                     $sq->puzzle_template_id = $pt->id;
                     $sq->row = $row;
@@ -55,6 +56,9 @@ class PuzzleTemplate extends Model {
                     if (in_array($row.'-'.$col, $args['blackSquares'])){
                         $sq->square_type = 'black';
                     }else{
+                        if ($row == 1 || $col == 1 || in_array(($row - 1).'-'.$col, $args['blackSquares']) || in_array($row.'-'.($col - 1), $args['blackSquares'])){
+                            $sq->clue_number = $clue_number++;
+                        }
                         $sq->square_type = 'white';
                     }
                     $sq->save();

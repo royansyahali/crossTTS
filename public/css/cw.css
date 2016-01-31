@@ -16,6 +16,16 @@
 .puzzle table td.black{
     background-color:black;
 }
+.puzzle table td.clue div{
+    text-align: left;
+}
+.puzzle table td.clue div::after{
+    content: attr(data-clue-number);
+    top: -9px;
+    position: relative;
+    font-size: 9px;
+    left: 1px;
+}
 .bottom-right-button{
     position:absolute;
     bottom:10px;

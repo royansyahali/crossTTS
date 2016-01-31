@@ -33,7 +33,7 @@ class PuzzleController extends Controller
         if ($pt->validate($args)){
             return PuzzleTemplate::create($args);
         }else{
-            abort('401', 'There was an error');
+            abort('401', $pt->errors());
         }
         
     }

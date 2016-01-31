@@ -15,6 +15,7 @@ class WordSeeder extends Seeder{
         $filename = "data/5000commonwords.txt";
         $words_str = File::get($filename);
         $words = explode("\r\n", $words_str);
+        //$words = explode("\n", $words_str);
         
         foreach($words as $word_str){
             $word = Word::where('word', $word_str)->first();

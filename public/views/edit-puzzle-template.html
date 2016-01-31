@@ -51,7 +51,7 @@
             <div class="puzzle">
                 <table>
                     <tr ng-repeat="row in ptctrl.range(1,ptctrl.width)" >
-                        <td class="pointy" ng-class="{'black' : ptctrl.isBlackSquare(row, col)}" ng-repeat="col in ptctrl.range(1, ptctrl.height)" data-row="{{row}}" data-col="{{col}}" ng-click="ptctrl.changeBlock(row, col)"></td>
+                        <td class="pointy" ng-class="{'black' : ptctrl.isBlackSquare(row, col), 'clue' : ptctrl.clueNumber(row, col) > -1}" ng-repeat="col in ptctrl.range(1, ptctrl.height)" data-row="{{row}}" data-col="{{col}}" ng-click="ptctrl.changeBlock(row, col)"><div data-clue-number="{{ptctrl.clueNumber(row, col) + 1}}"></div></td>
                     </tr>
                 </table>
                 <div class="row">
