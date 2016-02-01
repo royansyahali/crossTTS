@@ -1,0 +1,19 @@
+<div class="container" data-ng-controller="puzzleTemplateCtrl as ptctrl">
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ptctrl.name}}</h2> <div><small>by {{ptctrl.owner}}</small></div>
+        </div>
+        <div class="card-body">
+            <div class="puzzle">
+                <table>
+                    <tr ng-repeat="row in ptctrl.range(1,ptctrl.width)" >
+                        <td ng-class="{'black' : ptctrl.isBlackSquare(row, col), 'clue' : ptctrl.clueNumber(row, col) > -1}" ng-repeat="col in ptctrl.range(1, ptctrl.height)" data-row="{{row}}" data-col="{{col}}"><div data-clue-number="{{ptctrl.clueNumber(row, col) + 1}}"></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="btn btn-primary bottom-right-button" ng-click="ptctrl.createTemplate()">Create a Puzzle With This Template</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,25 @@
 materialAdmin
-    .controller('puzzleTemplateCtrl', function($scope, $timeout, puzzleService, growlService) {
+    .controller('puzzleTemplateCtrl', function($scope, $location, $timeout, puzzleService, growlService) {
         var self = this;
         self.name = '';
+        self.username = '';
         self.width = 10;
         self.height = 10;
         self.forceSymmetry = true;
         self.blackSquares = [];
         self.clueSquares = [];
+        
+        puzzleService.getPuzzleTemplate($location.path().substr(18,999)).success(function(d){
+            self.puzzleTemplate = d;
+            self.name = d.name;
+            self.width = d.width;
+            self.height = d.height;
+            self.owner = d.owner;
+            self.username = d.username;
+            self.forceSymmetry = d.symmetrical == 1;
+            self.blackSquares = d.blackSquares;
+            self.clueSquares = d.clueSquares;
+        });
         
         self.symmetryClick = function(){
             if (self.forceSymmetry){

@@ -23,4 +23,13 @@ materialAdmin
                 url: "/puzzle_templates"
               });
         }
+        
+        this.getPuzzleTemplate = function(slug){
+            return $http({
+                method: 'get',
+                url: "/puzzle_templates/" + slug
+              });
+        }
+        
+        
     }])

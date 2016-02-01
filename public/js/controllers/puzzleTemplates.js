@@ -1,5 +1,5 @@
 materialAdmin
-    .controller('puzzleTemplatesCtrl', function($scope, $timeout, puzzleService, growlService) {
+    .controller('puzzleTemplatesCtrl', function($scope, $location, $timeout, puzzleService, growlService) {
         var self = this;
         self.puzzletemplates = [];
         self.pageSize = 20;

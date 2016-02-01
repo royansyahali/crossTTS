@@ -1,10 +1,14 @@
 <?php namespace App\Models;
 
+use DB;
+
 use Illuminate\Database\Eloquent\Model;
 
 class PuzzleTemplate extends Model {
 	protected $table = 'puzzle_templates';
 	public $timestamps = FALSE;
+    
+    const SELECT_RAW = 'puzzle_templates.id, puzzle_templates.name, puzzle_templates.slug, puzzle_templates.symmetrical, width, height, users.name owner, users.username, concat(from_unixtime(puzzle_templates.timestamp_utc), \' GMT\')';
     
     protected $rules = array(
         'name'      => 'required',
@@ -32,6 +36,33 @@ class PuzzleTemplate extends Model {
     
     public function puzzleTemplateSquares(){
         return $this->hasMany(PuzzleTemplateSquare::class);
+    }
+    
+    public function blackSquares(){
+        $squares = PuzzleTemplateSquare::where('puzzle_template_id', $this->id)
+            ->where('square_type', 'black')
+            ->get();
+        
+        $ret = array();
+        foreach($squares as $s){
+            $ret[] = $s->row.'-'.$s->col;
+        }
+        
+        return $ret;
+    }
+    
+    public function clueSquares(){
+        $squares = PuzzleTemplateSquare::where('puzzle_template_id', $this->id)
+            ->whereNotNull('clue_number')
+            ->orderBy('clue_number')
+            ->get();
+        
+        $ret = array();
+        foreach($squares as $s){
+            $ret[] = $s->row.'-'.$s->col;
+        }
+        
+        return $ret;
     }
     
     public static function create(array $args = array()){
@@ -82,5 +113,34 @@ class PuzzleTemplate extends Model {
             $exists = PuzzleTemplate::where('slug', $slug)->first();
         }
         return $slug;
+    }
+    
+    public static function findBySlug($slug){
+        $pt = self::leftjoin('users', 'users.id', '=', 'puzzle_templates.user_id')
+            ->selectRaw(self::SELECT_RAW)
+            ->where('puzzle_templates.active', 1)
+            ->where('slug', $slug)
+            ->first();
+            
+        $pt->blackSquares = $pt->blackSquares();
+        $pt->clueSquares = $pt->clueSquares();
+        
+        unset($pt->id);
+        
+        return $pt;
+    }
+    
+    public static function findActive(){
+        $pts = PuzzleTemplate::leftjoin('users', 'users.id', '=', 'puzzle_templates.user_id')
+            ->selectRaw(self::SELECT_RAW)
+            ->where('puzzle_templates.active', 1)->get();
+            
+        foreach($pts as $k=>$pt){
+            $pts[$k]->blackSquares = $pt->blackSquares();
+            $pts[$k]->clueSquares = $pt->clueSquares();
+            unset($pts[$k]->id);
+        }
+        
+        return $pts;
     }
 }

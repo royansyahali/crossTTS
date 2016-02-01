@@ -39,10 +39,12 @@ class PuzzleController extends Controller
     }
     
     public function getPuzzleTemplates(){
-        $pts = PuzzleTemplate::leftjoin('users', 'users.id', '=', 'puzzle_templates.user_id')
-            ->selectRaw('puzzle_templates.name, puzzle_templates.slug, width, height, users.name owner, users.username, concat(from_unixtime(puzzle_templates.timestamp_utc), \' GMT\') created')
-            ->where('puzzle_templates.active', 1)->get();
+        $pts = PuzzleTemplate::findActive();
         
         return $pts;
+    }
+    
+    public function getPuzzleTemplate($slug){
+        return PuzzleTemplate::findBySlug($slug);
     }
 }
