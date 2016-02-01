@@ -42,6 +42,7 @@ class PuzzleTemplate extends Model {
             $pt->width = $args['width'];
             $pt->height = $args['height'];
             $pt->user_id = $args['user_id'];
+            $pt->active = 1;
             $pt->timestamp_utc = time();
             $pt->slug = PuzzleTemplate::findSlug($args['name']);
             $pt->save();
@@ -72,7 +73,7 @@ class PuzzleTemplate extends Model {
     }
     
     public static function findSlug($name){
-        $slug = preg_replace("[^a-zA-Z\d]", "-", $name);
+        $slug = strtolower(preg_replace("/[^a-zA-Z\d]/", "-", $name));
         $origslug = $slug;
         $exists = PuzzleTemplate::where('slug', $slug)->first();
         $i = 0;

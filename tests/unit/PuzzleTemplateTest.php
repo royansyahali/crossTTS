@@ -11,6 +11,18 @@ class PuzzleTemplateTest extends TestCase
 {
     use DatabaseMigrations;
     
+    public function testASlugCanBeCreated(){
+        $faker = Faker\Factory::create();
+        
+        $name = "My first Template";
+        
+        $slug = PuzzleTemplate::findSlug($name);
+        
+        $desired_slug = "my-first-template";
+        
+        $this->assertEquals($desired_slug, $slug);
+    }
+    
     public function testAPuzzleTemplateCanBeCreated(){
         $faker = Faker\Factory::create();
         

@@ -29,28 +29,38 @@ materialAdmin
                 templateUrl: 'views/puzzles-list.html'
             })
 
-            .state ('puzzles.new-puzzle-template', {
-                url: '/edit-puzzle-template',
-                templateUrl: 'views/edit-puzzle-template.html'
-            })
-
-            .state ('puzzles.edit-puzzle-template', {
-                url: '/edit-puzzle-template/:puzzle_template_id',
-                templateUrl: 'views/edit-puzzle-template.html'
-            })
-
-            .state ('puzzles.new-puzzle', {
-                url: '/edit-puzzle',
-                templateUrl: 'views/edit-puzzle.html'
-            })
-
-            .state ('puzzles.edit-puzzle', {
-                url: '/edit-puzzle/:puzzle_id',
+            .state ('puzzles.new', {
+                url: '/new',
                 templateUrl: 'views/edit-puzzle.html'
             })
 
             .state ('puzzles.detail', {
                 url: '/:puzzle_id',
                 templateUrl: 'views/puzzle-detail.html'
+            })
+            
+
+            //------------------------------
+            // PUZZLE-TEMPLATES
+            //------------------------------
+            
+            .state ('puzzle-templates', {
+                url: '/puzzle-templates',
+                templateUrl: 'views/common.html'
+            })
+            
+            .state ('puzzle-templates.list', {
+                url: '/list',
+                templateUrl: 'views/puzzle-templates-list.html'
+            })
+
+            .state ('puzzle-templates.new', {
+                url: '/new',
+                templateUrl: 'views/edit-puzzle-template.html'
+            })
+
+            .state ('puzzle-templates.detail', {
+                url: '/:puzzle_template_id',
+                templateUrl: 'views/puzzle-template-detail.html'
             })
     });

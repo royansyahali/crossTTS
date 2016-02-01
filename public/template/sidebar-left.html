@@ -30,8 +30,16 @@
             <a href="" toggle-submenu><i class="zmdi zmdi-collection-text"></i> Puzzles</a>
 
             <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="puzzles.new-puzzle-template" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle Template</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="puzzles.new-puzzle" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle </a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="puzzles.list" data-ng-click="mactrl.sidebarStat($event)">List</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="puzzles.new" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle </a></li>
+            </ul>
+        </li>
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('puzzle-templates') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-collection-text"></i> Templates</a>
+
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="puzzle-templates.list" data-ng-click="mactrl.sidebarStat($event)">List</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="puzzle-templates.new" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle Template</a></li>
             </ul>
         </li>
     </ul>
