@@ -23,13 +23,13 @@ class CreateWordsTable extends Migration
         Schema::create('letters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('letter',1);
-            $table->integer('word_id')->unsigned()->nullable();
+            $table->integer('word_id')->unsigned()->default(0);
             $table->foreign('word_id')->references('id')->on('words');
             $table->mediumInteger('ordinal')->index();
         });
         Schema::create('clues_available', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('word_id')->unsigned()->nullable();
+            $table->integer('word_id')->unsigned()->default(0);
             $table->foreign('word_id')->references('id')->on('words');
             $table->string('clue');
             $table->integer('timestamp_utc')->unsigned();

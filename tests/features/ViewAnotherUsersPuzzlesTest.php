@@ -23,6 +23,6 @@ class ViewAnotherUsersPuzzlesTest extends TestCase
         
         $user->puzzles()->save($puzzle);
         
-        $this->visit('/johndoe2/puzzles')->see('My first puzzle');
+        $this->visit('/users/johndoe2/puzzles')->see('My first puzzle');
     }
 }

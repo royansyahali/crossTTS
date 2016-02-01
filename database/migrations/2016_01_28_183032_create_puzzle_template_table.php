@@ -27,7 +27,7 @@ class CreatePuzzleTemplateTable extends Migration
         
         Schema::create('puzzle_template_squares', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('puzzle_template_id')->unsigned();
+            $table->integer('puzzle_template_id')->unsigned()->default(0);
             $table->foreign('puzzle_template_id')->references('id')->on('puzzle_templates');
             $table->integer('row');
             $table->integer('col');
