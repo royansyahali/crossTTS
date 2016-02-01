@@ -51,7 +51,29 @@ materialAdmin
             
             .state ('puzzle-templates.list', {
                 url: '/list',
-                templateUrl: 'views/puzzle-templates-list.html'
+                templateUrl: 'views/puzzle-templates-list.html',
+                resolve: {
+                    loadPlugin: function($ocLazyLoad) {
+                        return $ocLazyLoad.load ([
+                            {
+                                name: 'css',
+                                insertBefore: '#app-level',
+                                files: [
+                                    'vendors/bower_components/nouislider/jquery.nouislider.css',
+                                    'vendors/bower_components/chosen/chosen.min.css',
+                                ]
+                            },
+                            {
+                                name: 'vendors',
+                                files: [
+                                    'vendors/bower_components/nouislider/jquery.nouislider.min.js',
+                                    'vendors/bower_components/chosen/chosen.jquery.js',
+                                    'vendors/bower_components/angular-chosen-localytics/chosen.js',
+                                ]
+                            }
+                        ])
+                    }
+                }
             })
 
             .state ('puzzle-templates.new', {

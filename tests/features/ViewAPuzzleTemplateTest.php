@@ -28,6 +28,6 @@ class ViewAPuzzleTemplateTest extends TestCase
         
         $user->puzzleTemplates()->save($puzzleTemplate);
         
-        $this->visit('/johndoe3/puzzleTemplates')->see('My first puzzle template');
+        $this->visit('/johndoe3/puzzle_templates')->see('My first puzzle template');
     }
 }

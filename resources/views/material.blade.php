@@ -122,6 +122,7 @@
         <script src="js/controllers/table.js"></script>
         <script src="js/controllers/puzzle.js"></script>
         <script src="js/controllers/puzzleTemplate.js"></script>
+        <script src="js/controllers/puzzleTemplates.js"></script>
 
         <!-- Services -->
         <script src="js/services/profile.js"></script>

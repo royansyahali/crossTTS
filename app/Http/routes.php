@@ -5,8 +5,9 @@ Route::group(['middleware' => ['web']], function () {
         return view('welcome');
     });
     
-    Route::get('/{username}/puzzleTemplates', 'UserController@showPuzzleTemplates');
-    Route::post('/puzzleTemplates', 'PuzzleController@postPuzzleTemplate');
+    Route::get('/{username}/puzzle_templates', 'UserController@showPuzzleTemplates');
+    Route::get('/puzzle_templates', 'PuzzleController@getPuzzleTemplates');
+    Route::post('/puzzle_templates', 'PuzzleController@postPuzzleTemplate');
     
     Route::get('/puzzles', 'PuzzleController@showPopularPuzzles');
     Route::get('/{username}/puzzles', 'UserController@showPuzzles');
