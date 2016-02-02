@@ -30,13 +30,18 @@ materialAdmin
             })
 
             .state ('puzzles.new', {
-                url: '/new',
+                url: '/new/:puzzle_template_id',
+                templateUrl: 'views/new-puzzle.html'
+            })
+
+            .state ('puzzles.edit', {
+                url: '/edit/:puzzle_id',
                 templateUrl: 'views/edit-puzzle.html'
             })
 
-            .state ('puzzles.detail', {
-                url: '/:puzzle_id',
-                templateUrl: 'views/puzzle-detail.html'
+            .state ('puzzles.solve', {
+                url: '/solve/:puzzle_id',
+                templateUrl: 'views/puzzle-solve.html'
             })
             
 

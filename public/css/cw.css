@@ -12,19 +12,30 @@
     border:1px solid black;
     width:25px;
     height:25px;
+    position:relative;
+}
+.puzzle table td div{
+    text-transform: uppercase;
+    text-align: center;
+    font-size:larger;
 }
 .puzzle table td.black{
     background-color:black;
 }
 .puzzle table td.clue div{
-    text-align: left;
 }
-.puzzle table td.clue div::after{
+.puzzle table td.clue::before{
     content: attr(data-clue-number);
-    top: -9px;
-    position: relative;
     font-size: 9px;
+    float: left;
+    position: absolute;
     left: 1px;
+}
+.puzzle table td.selected-word{
+    background-color:lightblue;
+}
+.puzzle table td.selected-letter{
+    background-color:lightgoldenrodyellow;
 }
 .bottom-right-button{
     position:absolute;

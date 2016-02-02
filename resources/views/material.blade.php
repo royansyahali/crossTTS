@@ -124,6 +124,9 @@
         <script src="js/controllers/puzzleTemplate.js"></script>
         <script src="js/controllers/puzzleTemplates.js"></script>
 
+        <!-- Directives -->
+        <script src="js/directives/contenteditable.js"></script>
+
         <!-- Services -->
         <script src="js/services/profile.js"></script>
         <script src="js/services/puzzle.js"></script>
