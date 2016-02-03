@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Puzzle;
+use App\Models\PuzzleSquare;
 use App\Models\PuzzleTemplate;
 use App\Models\User;
 
@@ -56,7 +57,7 @@ class PuzzleController extends Controller
         $p = Puzzle::findBySlug($slug);
         
         if ($p->user_id != $user->id){
-            return array('errors', array('This isn\'t your puzzle'))
+            return array('errors', array('This isn\'t your puzzle'));
         }
         
         return PuzzleSquare::findSuggestion($p, $row, $col);

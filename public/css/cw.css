@@ -22,8 +22,6 @@
 .puzzle table td.black{
     background-color:black;
 }
-.puzzle table td.clue div{
-}
 .puzzle table td.clue::before{
     content: attr(data-clue-number);
     font-size: 9px;

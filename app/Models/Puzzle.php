@@ -48,13 +48,21 @@ class Puzzle extends Model {
             $p->timestamp_utc = time();
             $p->save();
             
-            foreach($args['puzzle_squares'] as $puzzle_square){
+            $ptss = PuzzleTemplateSquare::where('puzzle_template_id', $args['puzzle_template_id'])->get();
+            
+            foreach($ptss as $pts){
                 $ps = new PuzzleSquare;
                 $ps->puzzle_id = $p->id;
-                $ps->row = $puzzle_square['row'];
-                $ps->col = $puzzle_square['col'];
-                $ps->letter = $puzzle_square['letter'];
-                $ps->square_type = $puzzle_square['square_type'];
+                $ps->row = $pts->row;
+                $ps->col = $pts->col;
+                $letter = "";
+                foreach($args['puzzle_squares'] as $puzzle_square){
+                    if ($puzzle_square['row'] == $pts->row && $puzzle_square['col'] == $pts->col){
+                        $letter = $puzzle_square['letter'];
+                    }
+                }
+                $ps->letter = $letter;
+                $ps->square_type = $pts->square_type;
                 $ps->save();
             }
             

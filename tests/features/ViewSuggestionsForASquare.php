@@ -47,7 +47,7 @@ class ViewSuggestionsForASquareTest extends TestCase
         
         $name = $faker->sentence;
 
-        $firstword = "sterot";
+        $firstword = "st";
         $puzzleSquares = array();
         
         for($k = 0; $k < strlen($firstword); $k++){
@@ -73,7 +73,6 @@ class ViewSuggestionsForASquareTest extends TestCase
         
         $this->seed(); //Populate the words and letters tables
         
-        
-        $this->visit('/puzzle_square_suggestion/'.$puzzle->slug."/1/7")->see("y");
+        $this->actingAs($user)->visit('/puzzle_square_suggestion/'.$puzzle->slug."/1/3")->see("r");
     }
 }
