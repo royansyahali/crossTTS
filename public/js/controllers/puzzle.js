@@ -18,11 +18,24 @@ materialAdmin
                 }
             }
         });
+    
+    
+        $scope.$watch('pctrl.selectedRow', function() {
+            self.setFocusOnSelectedSquare();
+        });
+    
+        $scope.$watch('pctrl.selectedCol', function() {
+            self.setFocusOnSelectedSquare();
+        });
+    
+        self.setFocusOnSelectedSquare = function() {
+            $("[data-row="+self.selectedRow+"][data-col="+self.selectedCol+"] div").focus();
+        };
         
         self.keyDown = function(e){
             var preventDefault = true;
             if (e.keyCode > 64 && e.keyCode < 91){
-                self.puzzle.squares[self.selectedCol + '-' + self.selectedRow] = String.fromCharCode(e.keyCode);
+                self.puzzle.squares[self.selectedRow + '-' + self.selectedCol].letter = String.fromCharCode(e.keyCode);
                 if (self.selectedDirection == 'across'){
                     self.moveRight();
                 }else if (self.selectedDirection == 'down'){
@@ -108,7 +121,6 @@ materialAdmin
                     e.preventDefault();
                 }
             }
-            $("[data-row="+self.selectedRow+"][data-col="+self.selectedCol+"] div").focus();
         }
         
         self.moveLeft = function(){
