@@ -7,12 +7,34 @@ class PuzzleSquare extends Model {
     protected $table = 'puzzle_squares';
     public $timestamps = FALSE;
     
+    public static function replace($args){
+        //require puzzle_id, row, col
+        if (isset($args['puzzle_id']) && isset($args['row']) && isset($args['col'])){
+            $ps = PuzzleSquare::where('puzzle_id', $args['puzzle_id'])
+                ->where('row', $args['row'])
+                ->where('col', $args['col'])
+                ->first();
+            if (!$ps){
+                $ps = new PuzzleSquare;
+                $ps->puzzle_id = $args['puzzle_id'];
+                $ps->row = $args['row'];
+                $ps->col = $args['col'];
+            }
+            $ps->letter = isset($args['letter']) ? $args['letter'] : "";
+            $ps->save();
+            
+            return $ps;
+        }else{
+            return array('errors' => array('incomplete input for puzzle square'));
+        }
+    }
+    
     public static function findSuggestion($puzzle, $row, $col){
         $across_word = array();
         $down_word = array();
         
         $down_squares = self::where('puzzle_id', $puzzle->id)
-            ->where('col', $col)->orderBy('col')->get();
+            ->where('col', $col)->orderBy('row')->get();
             
         $keepLookingDown = true;
         $i = 0;
@@ -40,26 +62,27 @@ class PuzzleSquare extends Model {
         }
         
         $across_squares = self::where('puzzle_id', $puzzle->id)
-            ->where('row', $row)->orderBy('row')->get();
+            ->where('row', $row)->orderBy('col')->get();
             
         $keepLookingRight = true;
         $i = 0;
         while ($keepLookingRight){
-            $across_word[800 + $i] = $across_squares[$row + $i];
+            $across_word[800 + $i] = $across_squares[$col + $i];
             $i++;
-            if (@!$across_squares[$row + $i] || $across_squares[$row + $i]->square_type == 'black'){
+            if (@!$across_squares[$col + $i] || $across_squares[$col + $i]->square_type == 'black'){
                 $keepLookingRight = false;
             }
         }
         $keepLookingLeft = true;
         $i = 0;
         while ($keepLookingLeft){
-            $across_word[800 - $i] = $across_squares[$row - $i];
+            $across_word[800 - $i] = $across_squares[$col - $i];
             $i++;
-            if (@!$across_squares[$row - $i] || $across_squares[$row - $i]->square_type == 'black'){
+            if (@!$across_squares[$col - $i] || $across_squares[$col - $i]->square_type == 'black'){
                 $keepLookingLeft = false;
             }
         }
+        
         ksort($across_word);
         $i = 1;
         foreach($across_word as $k=>$sq){
@@ -112,6 +135,6 @@ class PuzzleSquare extends Model {
         
         $word_count = Word::count();
         
-        return compact('word_count', 'suggestions');
+        return compact('word_count', 'down_word', 'across_word', 'query', 'params', 'suggestions');
     }
 }

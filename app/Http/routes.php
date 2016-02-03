@@ -10,8 +10,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/puzzle_templates', 'PuzzleController@postPuzzleTemplate');
     
     Route::get('/puzzles', 'PuzzleController@showPopularPuzzles');
+    Route::get('/puzzles/{slug}', 'PuzzleController@getPuzzle');
+    Route::post('/puzzles', 'PuzzleController@postPuzzle');
     
-    Route::get('/puzzle_square_suggestion/{puzzle_id}/{row}/{col}', 'PuzzleController@getSuggestion');
+    Route::get('/puzzle_squares/suggestion/{puzzle_slug}/{row}/{col}', 'PuzzleController@getSuggestion');
+    Route::post('/puzzle_square', 'PuzzleController@postSquare');
     
     Route::get('/auth/me', 'AuthController@getMe');
     Route::get('/auth/logout', 'AuthController@getLogout');

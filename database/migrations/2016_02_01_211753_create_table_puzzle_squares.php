@@ -31,7 +31,7 @@ class CreateTablePuzzleSquares extends Migration
             $table->integer('row');
             $table->integer('col');
             $table->string('letter',1);
-            $table->enum('square_type', array('white', 'circle'));
+            $table->enum('square_type', array('white', 'black', 'circle'));
         });
     }
 

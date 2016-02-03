@@ -1,5 +1,5 @@
 materialAdmin
-    .controller('puzzleTemplateCtrl', function($scope, $location, $timeout, puzzleService, growlService) {
+    .controller('puzzleTemplateCtrl', function($scope, $location, $stateParams, $timeout, puzzleService, growlService) {
         var self = this;
         self.name = '';
         self.username = '';
@@ -91,6 +91,23 @@ materialAdmin
                     }
                 }else{
                     growlService.growl('Success!', 'success');
+                }
+            }).error(function(d){
+                growlService.growl('There was an error: ' + d, 'danger');
+            });
+        }
+        
+        self.createPuzzle = function(){
+            var sent = {
+                template_slug: self.puzzleTemplate.slug,
+            };
+            puzzleService.createPuzzle(sent).success(function(d){
+                if (d['errors']){
+                    for(e in d['errors']){
+                        growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                    }
+                }else{
+                    $location.path('/puzzles/edit/' + d['slug']);
                 }
             }).error(function(d){
                 growlService.growl('There was an error: ' + d, 'danger');

@@ -29,13 +29,8 @@ materialAdmin
                 templateUrl: 'views/puzzles-list.html'
             })
 
-            .state ('puzzles.new', {
-                url: '/new/:puzzle_template_id',
-                templateUrl: 'views/puzzle-new.html'
-            })
-
             .state ('puzzles.edit', {
-                url: '/edit/:puzzle_id',
+                url: '/edit/:puzzle_slug',
                 templateUrl: 'views/puzzle-edit.html'
             })
 

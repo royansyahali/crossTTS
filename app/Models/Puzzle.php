@@ -34,7 +34,25 @@ class Puzzle extends Model {
     }
     
     public function puzzle_squares(){
-        return $this->hasMany(PuzzleSquare::class);
+        $ret = array();
+        
+        $db = PuzzleSquare::where('puzzle_id', $this->id)->orderBy('row')->orderBy('col')->get();
+        foreach($db as $ps){
+            $ret[$ps->row.'-'.$ps->col] = array(
+                'letter' => $ps->letter,
+                'square_type' => $ps->square_type,
+            );
+        }
+        
+        return $ret;
+    }
+    
+    public function puzzle_template(){
+        return $this->belongsTo(PuzzleTemplate::class);
+    }
+    
+    public function owner(){
+        return User::find($this->user_id)->select('name')->first()['name'];
     }
     
     public static function create(array $args = array()){
@@ -56,9 +74,11 @@ class Puzzle extends Model {
                 $ps->row = $pts->row;
                 $ps->col = $pts->col;
                 $letter = "";
-                foreach($args['puzzle_squares'] as $puzzle_square){
-                    if ($puzzle_square['row'] == $pts->row && $puzzle_square['col'] == $pts->col){
-                        $letter = $puzzle_square['letter'];
+                if (isset($args['puzzle_squares'])){
+                    foreach($args['puzzle_squares'] as $puzzle_square){
+                        if ($puzzle_square['row'] == $pts->row && $puzzle_square['col'] == $pts->col){
+                            $letter = $puzzle_square['letter'];
+                        }
                     }
                 }
                 $ps->letter = $letter;
@@ -66,10 +86,12 @@ class Puzzle extends Model {
                 $ps->save();
             }
             
-            foreach($args['clues'] as $c){
-                $p->clues()->save($c);
+            if (isset($args['clues'])){
+                foreach($args['clues'] as $c){
+                    $p->clues()->save($c);
+                }
             }
-                        
+
             return $p;
         }else{
             return array('errors' => $v->errors);

@@ -73,6 +73,6 @@ class ViewSuggestionsForASquareTest extends TestCase
         
         $this->seed(); //Populate the words and letters tables
         
-        $this->actingAs($user)->visit('/puzzle_square_suggestion/'.$puzzle->slug."/1/3")->see("r");
+        $this->actingAs($user)->visit('/puzzle_squares/suggestion/'.$puzzle->slug."/1/3")->see("r");
     }
 }
