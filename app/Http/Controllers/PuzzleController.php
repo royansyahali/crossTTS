@@ -47,4 +47,18 @@ class PuzzleController extends Controller
     public function getPuzzleTemplate($slug){
         return PuzzleTemplate::findBySlug($slug);
     }
+    
+    public function getSuggestion($slug, $row, $col){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors', array('Please log in'));
+        }
+        $p = Puzzle::findBySlug($slug);
+        
+        if ($p->user_id != $user->id){
+            return array('errors', array('This isn\'t your puzzle'))
+        }
+        
+        return PuzzleSquare::findSuggestion($p, $row, $col);
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Models\Puzzle;
 use App\Models\PuzzleTemplate;
+use App\Models\PuzzleSquare;
 use App\Models\User;
 
 /*

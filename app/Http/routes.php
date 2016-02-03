@@ -11,6 +11,8 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::get('/puzzles', 'PuzzleController@showPopularPuzzles');
     
+    Route::get('/puzzle_square_suggestion/{puzzle_id}/{row}/{col}', 'PuzzleController@getSuggestion');
+    
     Route::get('/auth/me', 'AuthController@getMe');
     Route::get('/auth/logout', 'AuthController@getLogout');
     Route::get('/auth/killwindow', 'AuthController@getKillWindow');

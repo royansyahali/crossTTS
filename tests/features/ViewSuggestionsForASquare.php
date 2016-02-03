@@ -4,11 +4,14 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\Models\Letter;
 use App\Models\Puzzle;
+use App\Models\PuzzleSquare;
 use App\Models\PuzzleTemplate;
 use App\Models\User;
+use App\Models\Word;
 
-class ViewAnotherUsersPuzzlesTest extends TestCase
+class ViewSuggestionsForASquareTest extends TestCase
 {
     use DatabaseMigrations;
         
@@ -17,15 +20,16 @@ class ViewAnotherUsersPuzzlesTest extends TestCase
      *
      * @return void
      */
-    public function testViewingAPuzzle(){
+     
+    public function testViewingSuggestionsForASquare(){
         
         $faker = Faker\Factory::create();
         
         $user = factory(User::class)->create(['username' => 'krisbryant']);
         
         $name = $faker->sentence;
-        $width = $faker->numberBetween(5,20);
-        $height = $faker->numberBetween(5,20);
+        $width = 10;
+        $height = 10;
         
         $blackSquares = array();
         
@@ -43,7 +47,17 @@ class ViewAnotherUsersPuzzlesTest extends TestCase
         
         $name = $faker->sentence;
 
+        $firstword = "sterot";
         $puzzleSquares = array();
+        
+        for($k = 0; $k < strlen($firstword); $k++){
+            $puzzleSquares[] = array(
+                'row' => 1,
+                'col' => $k + 1,
+                'letter' => substr($firstword, $k, 1),
+                'square_type' => 'white'
+            );
+        }
         
         $clues = array();
         
@@ -57,15 +71,9 @@ class ViewAnotherUsersPuzzlesTest extends TestCase
         
         $puzzle = Puzzle::create($args);
         
-        $this->visit('/puzzles/'.$puzzle->slug)->see($name);
-    }
-    
-    public function testViewingAnotherUsersPuzzles(){   
-        $user = factory(User::class)->create(['username' => 'johndoe2']);
-        $puzzle = factory(Puzzle::class)->make(['name' => 'My first puzzle']);
+        $this->seed(); //Populate the words and letters tables
         
-        $user->puzzles()->save($puzzle);
         
-        $this->visit('/users/johndoe2/puzzles')->see('My first puzzle');
+        $this->visit('/puzzle_square_suggestion/'.$puzzle->slug."/1/7")->see("y");
     }
 }

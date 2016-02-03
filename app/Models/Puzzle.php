@@ -10,8 +10,6 @@ class Puzzle extends Model {
         'name'                  => 'required',
         'user_id'               => 'required|numeric',
         'puzzle_template_id'    => 'required|numeric',
-        'puzzle_squares'        => 'required',
-        'clues'                 => 'required',
     );
     
     private $errors;
@@ -44,6 +42,7 @@ class Puzzle extends Model {
         if ($v->validate($args)){
             $p = new Puzzle;
             $p->name = $args['name'];
+            $p->slug = self::findSlug($args['name']);
             $p->user_id = $args['user_id'];
             $p->puzzle_template_id = $args['puzzle_template_id'];
             $p->timestamp_utc = time();
@@ -67,5 +66,21 @@ class Puzzle extends Model {
         }else{
             return array('errors' => $v->errors);
         }
+    }
+    
+    public static function findBySlug($slug){
+        return self::where('slug', $slug)->first();
+    }
+    
+    public static function findSlug($name){
+        $slug = strtolower(preg_replace("/[^a-zA-Z\d]/", "-", $name));
+        $origslug = $slug;
+        $exists = Puzzle::where('slug', $slug)->first();
+        $i = 0;
+        while ($exists){
+            $slug = $origslug."-".$i++;
+            $exists = Puzzle::where('slug', $slug)->first();
+        }
+        return $slug;
     }
 }
