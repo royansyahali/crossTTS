@@ -31,12 +31,12 @@ materialAdmin
 
             .state ('puzzles.new', {
                 url: '/new/:puzzle_template_id',
-                templateUrl: 'views/new-puzzle.html'
+                templateUrl: 'views/puzzle-new.html'
             })
 
             .state ('puzzles.edit', {
                 url: '/edit/:puzzle_id',
-                templateUrl: 'views/edit-puzzle.html'
+                templateUrl: 'views/puzzle-edit.html'
             })
 
             .state ('puzzles.solve', {
@@ -83,7 +83,7 @@ materialAdmin
 
             .state ('puzzle-templates.new', {
                 url: '/new',
-                templateUrl: 'views/edit-puzzle-template.html'
+                templateUrl: 'views/puzzle-template-edit.html'
             })
 
             .state ('puzzle-templates.detail', {
