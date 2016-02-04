@@ -139,6 +139,7 @@ materialAdmin
                                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                             }
                         });
+                        self.setFocusOnSelectedSquare();
                         break;
                     case 9:
                         //tab

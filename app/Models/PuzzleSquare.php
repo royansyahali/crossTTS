@@ -39,18 +39,18 @@ class PuzzleSquare extends Model {
         $keepLookingDown = true;
         $i = 0;
         while ($keepLookingDown){
-            $down_word[800 + $i] = $down_squares[$row + $i];
+            $down_word[800 + $i] = $down_squares[$row + $i - 1];
             $i++;
-            if (@!$down_squares[$row + $i] || $down_squares[$row + $i]->square_type == 'black'){
+            if (@!$down_squares[$row + $i - 1] || $down_squares[$row + $i - 1]->square_type == 'black'){
                 $keepLookingDown = false;
             }
         }
         $keepLookingUp = true;
         $i = 0;
         while ($keepLookingUp){
-            $down_word[800 - $i] = $down_squares[$row - $i];
+            $down_word[800 - $i] = $down_squares[$row - $i - 1];
             $i++;
-            if (@!$down_squares[$row - $i] || $down_squares[$row - $i]->square_type == 'black'){
+            if (@!$down_squares[$row - $i - 1] || $down_squares[$row - $i - 1]->square_type == 'black'){
                 $keepLookingUp = false;
             }
         }
@@ -67,18 +67,18 @@ class PuzzleSquare extends Model {
         $keepLookingRight = true;
         $i = 0;
         while ($keepLookingRight){
-            $across_word[800 + $i] = $across_squares[$col + $i];
+            $across_word[800 + $i] = $across_squares[$col + $i - 1];
             $i++;
-            if (@!$across_squares[$col + $i] || $across_squares[$col + $i]->square_type == 'black'){
+            if (@!$across_squares[$col + $i - 1] || $across_squares[$col + $i - 1]->square_type == 'black'){
                 $keepLookingRight = false;
             }
         }
         $keepLookingLeft = true;
         $i = 0;
         while ($keepLookingLeft){
-            $across_word[800 - $i] = $across_squares[$col - $i];
+            $across_word[800 - $i] = $across_squares[$col - $i - 1];
             $i++;
-            if (@!$across_squares[$col - $i] || $across_squares[$col - $i]->square_type == 'black'){
+            if (@!$across_squares[$col - $i - 1] || $across_squares[$col - $i - 1]->square_type == 'black'){
                 $keepLookingLeft = false;
             }
         }
@@ -95,14 +95,14 @@ class PuzzleSquare extends Model {
             left join letters l on l.word_id = w.id
             where w.length = ?
             and l.ordinal = ? ";
-        $params = array(count($across_word), $col);
+        $params = array(count($across_word), ($col - $across_word[1]['col'] + 1));
         
         foreach($across_word as $k=>$square){
             if ($square->letter != ""){
                 $across_query .= " and w.id in (select word_id from letters where letter = ? and ordinal = ?) 
                 ";
                 $params[] = $square->letter;
-                $params[] = $square->col;
+                $params[] = $square->col - $across_word[1]['col'] + 1;
             }
         }
         $across_query .= " group by l.letter ";
@@ -114,14 +114,14 @@ class PuzzleSquare extends Model {
             where w.length = ?
             and l.ordinal = ? ";
         $params[] = count($down_word);
-        $params[] = $row;
+        $params[] = $row - $down_word[1]['row'] + 1;
         
         foreach($down_word as $k=>$square){
             if ($square->letter != ""){
                 $down_query .= " and w.id in (select word_id from letters where letter = ? and ordinal = ?) 
                 ";
                 $params[] = $square->letter;
-                $params[] = $square->row;
+                $params[] = $square->row - $down_word[1]['row'] + 1;
             }
         }
         $down_query .= " group by l.letter ";
