@@ -12,7 +12,7 @@ class WordSeeder extends Seeder{
         
         $user = User::where('username', 'system')->first();
         
-        $filename = "data/5000commonwords.txt";
+        $filename = "data/58000words.txt";
         $words_str = File::get($filename);
         if (env("COMPUTER") == "HOMEMAC"){
             $words = explode("\n", $words_str);
