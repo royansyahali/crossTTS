@@ -10,6 +10,7 @@ materialAdmin
         self.suggestions = [];
         self.total_suggestion_score = 0;
         self.callingSuggestion = false;
+        self.currentSuggestionRequest = '';
         
         puzzleService.getPuzzle($stateParams.puzzle_slug).success(function(d){
             self.puzzle = d;
@@ -50,8 +51,13 @@ materialAdmin
     
         self.setFocusOnSelectedSquare = function() {
             $("[data-row="+self.selectedRow+"][data-col="+self.selectedCol+"] div").focus();
+            self.currentSuggestionRequest = self.selectedRow + "-" + self.selectedCol;
             $timeout(function(){
-                    self.getPuzzleSquareSuggestion()
+                    if (self.currentSuggestionRequest == self.selectedRow + "-" + self.selectedCol
+                        && self.puzzle.puzzle_squares[self.currentSuggestionRequest]
+                        && self.puzzle.puzzle_squares[self.currentSuggestionRequest].letter == ''){
+                        self.getPuzzleSquareSuggestion();
+                    }
             }, 1000);
         };
         
@@ -96,6 +102,20 @@ materialAdmin
                     case 8:
                         //backspace
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = '';
+                        var sent = {
+                            puzzle_id: self.puzzle.id,
+                            row: self.selectedRow,
+                            col: self.selectedCol,
+                            letter: '',
+                        };
+                        puzzleService.setPuzzleSquare(sent).success(function(received){
+                            if (received['errors']){
+                                for(e in received['errors']){
+                                    growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                                }
+                                self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
+                            }
+                        });
                         if (self.selectedDirection == 'across'){
                             self.moveLeft();
                         }else if (self.selectedDirection == 'down'){
@@ -105,6 +125,20 @@ materialAdmin
                     case 46:
                         //delete
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = '';
+                        var sent = {
+                            puzzle_id: self.puzzle.id,
+                            row: self.selectedRow,
+                            col: self.selectedCol,
+                            letter: '',
+                        };
+                        puzzleService.setPuzzleSquare(sent).success(function(received){
+                            if (received['errors']){
+                                for(e in received['errors']){
+                                    growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                                }
+                                self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
+                            }
+                        });
                         break;
                     case 9:
                         //tab
