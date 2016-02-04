@@ -6,22 +6,20 @@
             <div><small>puzzle by {{pctrl.puzzle.owner}}</small></div>
         </div>
         <div class="card-body" style="min-height:530px;">
-            <div ng-show="pctrl.suggestions.length > 0" class="suggestions">
-                <h3>Suggestions</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Letter</th>
-                            <th>Strength</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="suggestion in pctrl.suggestions">
-                            <td>{{suggestion.letter}}</td>
-                            <td>{{100 * suggestion.score / pctrl.total_suggestion_score | number:3}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="puzzle-edit-clues-container">
+                <h3>Clues</h3>
+                <div>
+                    <h4>Across</h4>
+                    <div class="pointy" 
+                        ng-class="{'active' : pctrl.inSelectedWord(clue.start.row, clue.start.col) && pctrl.selectedDirection == 'across'}"
+                        ng-repeat="(key, clue) in pctrl.clues.across" 
+                        ng-click="pctrl.clueClick(clue, 'across');">{{key | number}}. {{clue.clue}}</div>
+                    <h4>Down</h4>
+                    <div class="pointy" 
+                        ng-class="{'active' : pctrl.inSelectedWord(clue.start.row, clue.start.col) && pctrl.selectedDirection == 'down'}"
+                        ng-repeat="(key, clue) in pctrl.clues.down" 
+                        ng-click="pctrl.clueClick(clue, 'down');">{{key | number}}. {{clue.clue}}</div>
+                </div>
             </div>
             <div class="puzzleContainer">
                 <div class="puzzle">
@@ -43,6 +41,32 @@
                         </tr>
                     </table>
                 </div>
+                <div class="clue-input-container" ng-show="pctrl.selectedRow > 0 && pctrl.selectedCol > 0">
+                    <div>Clue for {{pctrl.selectedClue() | number}} {{pctrl.selectedDirection}}:</div>
+                    <input id="clue"/>
+                </div>
+            </div>
+            <div class="suggestions" ng-show="pctrl.selectedRow > 0 && pctrl.selectedCol > 0 && pctrl.puzzle.puzzle_squares[pctrl.currentSuggestionRequest].letter == ''">
+                <h3>Suggestions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Letter</th>
+                            <th>Strength</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-show="pctrl.suggestions.length > 0 && !self.callingSuggestion">
+                        <tr ng-repeat="suggestion in pctrl.suggestions">
+                            <td>{{suggestion.letter | uppercase}}</td>
+                            <td>{{100 * suggestion.score / pctrl.total_suggestion_score | number: 3}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-hide="pctrl.suggestions.length > 0 || self.callingSuggestion">
+                        <tr>
+                            <td colspan="2">No suggestions</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="row" style="margin-top: 20px;">
                 <div class="btn btn-primary bottom-right-button" ng-click="pctrl.create()">Create</div>

@@ -11,9 +11,42 @@ materialAdmin
         self.total_suggestion_score = 0;
         self.callingSuggestion = false;
         self.currentSuggestionRequest = '';
+        self.clues = {
+            across: {},
+            down:   {},
+        };
         
         puzzleService.getPuzzle($stateParams.puzzle_slug).success(function(d){
             self.puzzle = d;
+            for(s in self.puzzle.clue_squares){
+                var row = parseInt(self.puzzle.clue_squares[s].split("-")[0]);
+                var col = parseInt(self.puzzle.clue_squares[s].split("-")[1]);
+                var key = (parseInt(s) + 1) + "";
+                var pad = "0000";
+                key = pad.substring(0, pad.length - key.length) + key;
+                if (col != self.puzzle.puzzle_template.width 
+                    && !self.isBlackSquare(row, col + 1)
+                    && (col == 1 || self.isBlackSquare(row, col - 1))){
+                    self.clues.across[key] = {
+                        clue: '',
+                        start: {
+                            row: row,
+                            col: col,
+                        },
+                    };
+                }
+                if (row != self.puzzle.puzzle_template.height 
+                    && !self.isBlackSquare(row + 1, col)
+                    && (row == 1 || self.isBlackSquare(row - 1, col))){
+                    self.clues.down[key] = {
+                        clue: '',
+                        start: {
+                            row: row,
+                            col: col,
+                        },
+                    };
+                }
+            }
         });
     
     
@@ -25,8 +58,16 @@ materialAdmin
             self.setFocusOnSelectedSquare();
         });
         
+        self.clueClick = function(clue, direction){
+            self.selectedRow = clue.start.row;
+            self.selectedCol = clue.start.col;
+            self.selectedDirection = direction;
+        }
+        
         self.getPuzzleSquareSuggestion = function(){
-            if (self.puzzle.slug && self.selectedRow > 0 && self.selectedCol > 0){
+            if (self.puzzle.slug && self.selectedRow > 0 && self.selectedCol > 0
+                    && self.puzzle.puzzle_squares[self.currentSuggestionRequest]
+                    && self.puzzle.puzzle_squares[self.currentSuggestionRequest].letter == ''){
                 if (!self.callingSuggestion){
                     self.callingSuggestion = true;
                     puzzleService.getPuzzleSquareSuggestion(self.puzzle.slug, self.selectedRow, self.selectedCol).success(function(d){
@@ -37,8 +78,10 @@ materialAdmin
                         }else{
                             self.suggestions = d['suggestions'];
                             self.word_count = d['word_count'];
-                            if (self.suggestions && self.suggestions.length > 0){
+                            if (self.suggestions && self.suggestions.length > 1){
                                 self.total_suggestion_score = self.suggestions.reduce(function(a,b) { return (a['score'] ? a['score'] : a) + b['score']; });
+                            }else if (self.suggestions && self.suggestions.length == 1){
+                                self.total_suggestion_score = self.suggestions[0]['score'];
                             }else{
                                 self.total_suggestion_score = 0;
                             }
@@ -46,6 +89,8 @@ materialAdmin
                         self.callingSuggestion = false;
                     });
                 }
+            }else{
+                self.suggestions = [];
             }
         }
     
@@ -53,16 +98,20 @@ materialAdmin
             $("[data-row="+self.selectedRow+"][data-col="+self.selectedCol+"] div").focus();
             self.currentSuggestionRequest = self.selectedRow + "-" + self.selectedCol;
             $timeout(function(){
-                    if (self.currentSuggestionRequest == self.selectedRow + "-" + self.selectedCol
-                        && self.puzzle.puzzle_squares[self.currentSuggestionRequest]
-                        && self.puzzle.puzzle_squares[self.currentSuggestionRequest].letter == ''){
-                        self.getPuzzleSquareSuggestion();
-                    }
+                if (self.currentSuggestionRequest == self.selectedRow + "-" + self.selectedCol){
+                    self.getPuzzleSquareSuggestion();
+                }
             }, 1000);
         };
         
         self.keyDown = function(e){
             var preventDefault = true;
+            if ($('#clue:focus').length > 0){
+                if (e.keyCode == 13){
+                    //save clue text
+                }
+                return;
+            }
             if (e.keyCode > 64 && e.keyCode < 91){
                 var oldLetter = self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter;
                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = String.fromCharCode(e.keyCode);
@@ -243,6 +292,27 @@ materialAdmin
                 self.selectedRow = destinationRow;
             }
         };
+        
+        self.selectedClue = function(){
+            if (self.selectedRow == 0 || self.selectedCol == 0){
+                return false;
+            }else{
+                if (self.selectedDirection == 'down'){
+                    var row = self.selectedRow;
+                    while (row > 0 && !self.isBlackSquare(row, self.selectedCol)){
+                        row--;
+                    }
+                    return self.clueNumber(row + 1, self.selectedCol) + 1;
+                }
+                if (self.selectedDirection == 'across'){
+                    var col = self.selectedCol;
+                    while (col > 0 && !self.isBlackSquare(self.selectedRow, col)){
+                        col--;
+                    }
+                    return self.clueNumber(self.selectedRow, col + 1) + 1;
+                }
+            }
+        }
         
         self.inSelectedWord = function(row, col){
             if (self.isBlackSquare(row, col)){

@@ -135,6 +135,6 @@ class PuzzleSquare extends Model {
         
         $word_count = Word::count();
         
-        return compact('word_count', 'down_word', 'across_word', 'query', 'params', 'suggestions');
+        return compact('word_count', 'suggestions');
     }
 }

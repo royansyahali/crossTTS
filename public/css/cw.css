@@ -4,6 +4,10 @@
 .puzzleContainer{
     width:100%;
     position:absolute;
+    text-align: center;
+}
+.puzzleContainer #clue{
+    width: 400px;
 }
 .puzzle{
     text-align: center;
@@ -45,9 +49,29 @@
     right:10px;
 }
 .suggestions{
-    float:left;
-    margin: 10px;
+    float: right;
+    position: relative;
+    right: 20px;
+    top: -36px;
 }
 .suggestions td, th{
     padding:1px;
+    border:1px solid black;
+    width: 50%;
+    text-align:center;
+}
+.puzzle-edit-clues-container{
+    float: left;
+    width: 200px;
+    top: -36px;
+    left: 10px;
+    position: relative;
+    z-index:2;
+}
+.puzzle-edit-clues-container > div{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+.puzzle-edit-clues-container .active{
+    background-color:lightgoldenrodyellow;
 }
