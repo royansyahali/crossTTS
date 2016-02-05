@@ -127,6 +127,7 @@
 
         <!-- Directives -->
         <script src="js/directives/contenteditable.js"></script>
+        <script src="js/directives/createPuzzleWarning.js"></script>
 
         <!-- Services -->
         <script src="js/services/profile.js"></script>

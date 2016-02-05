@@ -31,6 +31,15 @@ materialAdmin
             });
         }
         
+        this.activatePuzzle = function(sent){
+            return $http({
+                method: 'post',
+                url: "/puzzles/activate",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(sent)
+              });
+        }
+        
         
         this.createTemplate = function(template){
             return $http({
