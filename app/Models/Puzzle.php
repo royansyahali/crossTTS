@@ -98,6 +98,81 @@ class Puzzle extends Model {
         }
     }
     
+    public function activate($sure = false){
+        $missing_clues = array();
+        $missing_clues_for_one_letter_words = array();
+        $missing_letters = array();
+        $words = array();
+
+        $pt = $this->puzzle_template;
+        $squares = $this->puzzle_squares();
+        $clues = $this->clues;
+        
+        $ordinal = 1;
+        for($row = 1; $row <= $pt->height; $row++){
+            for($col = 1; $col <= $pt->width; $col++){
+                if ($squares[$row.'-'.$col]['letter'] == "" && $squares[$row.'-'.$col]['square_type'] != 'black'){
+                    $missing_letters[] = $row.'-'.$col;
+                }
+                $square_should_have_across_clue = false;
+                $square_should_have_down_clue = false;
+                if ($col != $pt->width
+                    && $squares[$row.'-'.$col]['square_type'] != 'black'
+                    && ($col == 1 || $squares[$row.'-'.($col-1)]['square_type'] == 'black')){
+                        $square_should_have_across_clue = true;
+                }
+                if ($row != $pt->height
+                    && $squares[$row.'-'.$col]['square_type'] != 'black'
+                    && ($row == 1|| $squares[($row - 1).'-'.$col]['square_type'] == 'black')){
+                        $square_should_have_down_clue = true;
+                }
+                if ($square_should_have_down_clue){
+                    $found_clue = false;
+                    foreach($clues as $clue){
+                        if ($clue->ordinal == $ordinal && $clue->direction == 'down'){
+                            $found_clue = $clue;
+                        }
+                    }
+                    if (!$found_clue){
+                        if ($row == $pt->height || $squares[($row + 1).'-'.$col]['square_type'] != 'black'){
+                            $missing_clues_for_one_letter_words[] = $ordinal.' down';
+                        }else{
+                            $missing_clues[] = $ordinal.' down';
+                        }
+                    }
+                }
+                if ($square_should_have_across_clue){
+                    $found_clue = false;
+                    foreach($clues as $clue){
+                        if ($clue->ordinal == $ordinal && $clue->direction == 'across'){
+                            $found_clue = $clue;
+                        }
+                    }
+                    if (!$found_clue){
+                        if ($col == $pt->width || $squares[$row.'-'.($col + 1)]['square_type'] != 'black'){
+                            $missing_clues_for_one_letter_words[] = $ordinal.' across';
+                        }else{
+                            $missing_clues[] = $ordinal.' across';
+                        }
+                    }
+                }
+                if ($square_should_have_across_clue || $square_should_have_down_clue){
+                    $ordinal++;
+                }
+            }
+        }
+        if (count($missing_clues) > 0 || count($missing_letters) > 0 || (count($missing_clues_for_one_letter_words) > 0 && !$sure)){
+            return array(
+                'errors' => compact('missing_clues', 'missing_letters', 'missing_clues_for_one_letter_words'),
+            );
+        }else{
+            $this->active = 1;
+            $this->save();
+            
+            return array('success' => 1);
+        }
+    }
+    
     public static function findBySlug($slug){
         return self::where('slug', $slug)->first();
     }
