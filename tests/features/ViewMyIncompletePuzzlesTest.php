@@ -8,7 +8,7 @@ use App\Models\Puzzle;
 use App\Models\PuzzleTemplate;
 use App\Models\User;
 
-class ViewPopularPuzzlesTest extends TestCase
+class ViewMyIncompletePuzzlesTest extends TestCase
 {
     use DatabaseMigrations;
         
@@ -17,10 +17,10 @@ class ViewPopularPuzzlesTest extends TestCase
      *
      * @return void
      */
-    public function testViewingPopularPuzzles(){   
+    public function testViewingMyIncompletePuzzles(){   
         $faker = Faker\Factory::create();
         
-        $user = factory(User::class)->create(['username' => 'johndoe1']);
+        $user = factory(User::class)->create(['username' => 'gregorypolanco']);
         
         $name = $faker->sentence;
         $width = 10;
@@ -91,11 +91,11 @@ class ViewPopularPuzzlesTest extends TestCase
         
         $puzzle5 = Puzzle::create($args);
         
-        $this->visit('/puzzles')->see('My first puzzle');
-        $this->visit('/puzzles')->see('My second puzzle');
-        $this->visit('/puzzles')->see('My third puzzle');
-        $this->visit('/puzzles')->see('My fourth puzzle');
-        $this->visit('/puzzles')->see('My fifth puzzle');
+        $this->actingAs($user)->visit('/incomplete_puzzles')->see('My first puzzle');
+        $this->actingAs($user)->visit('/incomplete_puzzles')->see('My second puzzle');
+        $this->actingAs($user)->visit('/incomplete_puzzles')->see('My third puzzle');
+        $this->actingAs($user)->visit('/incomplete_puzzles')->see('My fourth puzzle');
+        $this->actingAs($user)->visit('/incomplete_puzzles')->see('My fifth puzzle');
     
     }
 }

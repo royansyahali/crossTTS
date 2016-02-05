@@ -8,6 +8,13 @@ materialAdmin
               });
         };
         
+        this.getIncompletePuzzles = function() {
+            return $http({
+                method: 'get',
+                url: "/incomplete_puzzles"
+              });
+        };
+        
         this.getPuzzle = function(slug) {
             return $http({
                 method: 'get',
@@ -60,6 +67,16 @@ materialAdmin
             return $http({
                 method: 'post',
                 url: '/puzzle_square',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(sent)
+            });
+        }
+        
+        
+        this.saveClue = function(sent){
+            return $http({
+                method: 'post',
+                url: '/clue',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 data: $.param(sent)
             });

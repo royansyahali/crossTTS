@@ -1,7 +1,7 @@
 materialAdmin
-    .controller('puzzleTemplatesCtrl', function($scope, puzzleService, growlService) {
+    .controller('puzzlesCtrl', function($scope, $location, puzzleService, growlService) {
         var self = this;
-        self.puzzletemplates = [];
+        self.puzzles = [];
         self.pageSize = 20;
         self.currentPage = 1;
         self.currentSort = 'name';
@@ -11,9 +11,11 @@ materialAdmin
         self.widthMax = 20;
         self.search = '';
         
-        puzzleService.getPuzzleTemplates().success(function(d){
-            self.puzzletemplates = d;
-        });
+        if ($location.path().substr(0,24) == '/puzzles/incomplete-list'){
+            puzzleService.getIncompletePuzzles().success(function(d){
+                self.puzzles = d;
+            });
+        }
         
         self.changeSort = function(s){
             var desc = s.substr(0,1) == '-';
@@ -34,7 +36,8 @@ materialAdmin
         };
         
         self.filterResults = function(pt){
-            return pt.height >= self.heightMin && pt.width >= self.widthMin && pt.height <= self.widthMax && pt.height <= self.heightMax && (self.search == '' || pt.name.toLowerCase().indexOf(self.search.toLowerCase()) > -1);
+            return true;
+            //return pt.height >= self.heightMin && pt.width >= self.widthMin && pt.height <= self.widthMax && pt.height <= self.heightMax && (self.search == '' || pt.name.toLowerCase().indexOf(self.search.toLowerCase()) > -1);
         }
         
         self.changePage = function(p){

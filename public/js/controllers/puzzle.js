@@ -11,7 +11,7 @@ materialAdmin
         self.total_suggestion_score = 0;
         self.callingSuggestion = false;
         self.currentSuggestionRequest = '';
-        self.clues = {
+        self.possibleClues = {
             across: {},
             down:   {},
         };
@@ -27,8 +27,9 @@ materialAdmin
                 if (col != self.puzzle.puzzle_template.width 
                     && !self.isBlackSquare(row, col + 1)
                     && (col == 1 || self.isBlackSquare(row, col - 1))){
-                    self.clues.across[key] = {
-                        clue: '',
+                        
+                    self.possibleClues.across[key] = {
+                        clue: self.findClue(key, 'across'),
                         start: {
                             row: row,
                             col: col,
@@ -38,8 +39,8 @@ materialAdmin
                 if (row != self.puzzle.puzzle_template.height 
                     && !self.isBlackSquare(row + 1, col)
                     && (row == 1 || self.isBlackSquare(row - 1, col))){
-                    self.clues.down[key] = {
-                        clue: '',
+                    self.possibleClues.down[key] = {
+                        clue: self.findClue(key, 'down'),
                         start: {
                             row: row,
                             col: col,
@@ -48,6 +49,15 @@ materialAdmin
                 }
             }
         });
+        
+        self.findClue = function(ordinal, direction){
+            for(c in self.puzzle.clues){
+                if (self.puzzle.clues[c].ordinal == ordinal && self.puzzle.clues[c].direction == direction){
+                    return self.puzzle.clues[c].clue;
+                }
+            }
+            return '';
+        }
     
     
         $scope.$watch('pctrl.selectedRow', function() {
@@ -57,6 +67,43 @@ materialAdmin
         $scope.$watch('pctrl.selectedCol', function() {
             self.setFocusOnSelectedSquare();
         });
+        
+        self.setSelectedClueText = function(){
+            if (self.selectedRow > 0 && self.selectedCol > 0){
+                var pad = "0000";
+                var key = self.selectedClueOrdinal() + "";
+                key = pad.substring(0, pad.length - key.length) + key;
+                self.selectedClueText = self.possibleClues[self.selectedDirection][key].clue;
+            }else{
+                self.selectedClueText = '';
+            }
+        };
+        
+        self.saveClue = function(){
+            var args = {
+                puzzle_slug: $stateParams.puzzle_slug,
+                clue: self.selectedClueText,
+                ordinal: self.selectedClueOrdinal(),
+                direction: self.selectedDirection,
+            };
+            puzzleService.saveClue(args).success(function(d){
+                if (d['errors']){
+                    for(e in d['errors']){
+                        growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                    }
+                }else{
+                    var pad = "0000";
+                    var key = self.selectedClueOrdinal() + "";
+                    key = pad.substring(0, pad.length - key.length) + key;
+                    self.possibleClues[self.selectedDirection][key].clue = self.selectedClueText;
+                    for(c in self.puzzle.clues){
+                        if (self.puzzle.clues[c].ordinal == self.selectedClueOrdinal() && self.puzzle.clues[c].direction == self.selectedDirection){
+                            return self.puzzle.clues[c].clue;
+                        }
+                    }
+                }
+            });
+        }
         
         self.clueClick = function(clue, direction){
             self.selectedRow = clue.start.row;
@@ -97,6 +144,7 @@ materialAdmin
         self.setFocusOnSelectedSquare = function() {
             $("[data-row="+self.selectedRow+"][data-col="+self.selectedCol+"] div").focus();
             self.currentSuggestionRequest = self.selectedRow + "-" + self.selectedCol;
+            self.setSelectedClueText();
             $timeout(function(){
                 if (self.currentSuggestionRequest == self.selectedRow + "-" + self.selectedCol){
                     self.getPuzzleSquareSuggestion();
@@ -293,7 +341,7 @@ materialAdmin
             }
         };
         
-        self.selectedClue = function(){
+        self.selectedClueOrdinal = function(){
             if (self.selectedRow == 0 || self.selectedCol == 0){
                 return false;
             }else{

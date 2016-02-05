@@ -113,4 +113,12 @@ class Puzzle extends Model {
         }
         return $slug;
     }
+    
+    public static function getIncompletePuzzlesByUser($user){
+        return self::leftjoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
+            ->leftjoin('users', 'users.id', '=', 'puzzles.user_id')
+            ->select('puzzles.name', 'puzzles.slug', 'puzzles.timestamp_utc', 'puzzle_templates.width', 'puzzle_templates.height', 'users.name as owner', 'users.username')
+            ->where('puzzles.user_id', $user->id)
+            ->where('puzzles.active', 0)->get();
+    }
 }

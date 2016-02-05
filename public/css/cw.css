@@ -54,7 +54,7 @@
     right: 20px;
     top: -36px;
 }
-.suggestions td, th{
+.suggestions td, .suggestions th{
     padding:1px;
     border:1px solid black;
     width: 50%;

@@ -12,12 +12,12 @@
                     <h4>Across</h4>
                     <div class="pointy" 
                         ng-class="{'active' : pctrl.inSelectedWord(clue.start.row, clue.start.col) && pctrl.selectedDirection == 'across'}"
-                        ng-repeat="(key, clue) in pctrl.clues.across" 
+                        ng-repeat="(key, clue) in pctrl.possibleClues.across" 
                         ng-click="pctrl.clueClick(clue, 'across');">{{key | number}}. {{clue.clue}}</div>
                     <h4>Down</h4>
                     <div class="pointy" 
                         ng-class="{'active' : pctrl.inSelectedWord(clue.start.row, clue.start.col) && pctrl.selectedDirection == 'down'}"
-                        ng-repeat="(key, clue) in pctrl.clues.down" 
+                        ng-repeat="(key, clue) in pctrl.possibleClues.down" 
                         ng-click="pctrl.clueClick(clue, 'down');">{{key | number}}. {{clue.clue}}</div>
                 </div>
             </div>
@@ -43,7 +43,8 @@
                 </div>
                 <div class="clue-input-container" ng-show="pctrl.selectedRow > 0 && pctrl.selectedCol > 0">
                     <div>Clue for {{pctrl.selectedClue() | number}} {{pctrl.selectedDirection}}:</div>
-                    <input id="clue"/>
+                    <div style="margin-bottom:4px;"><input id="clue" ng-model="pctrl.selectedClueText"/></div>
+                    <div class="btn btn-primary" ng-click="pctrl.saveClue()">Save Clue</div>
                 </div>
             </div>
             <div class="suggestions" ng-show="pctrl.selectedRow > 0 && pctrl.selectedCol > 0 && pctrl.puzzle.puzzle_squares[pctrl.currentSuggestionRequest].letter == ''">

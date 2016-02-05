@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Clue;
 use App\Models\Puzzle;
 use App\Models\PuzzleSquare;
 use App\Models\PuzzleTemplate;
@@ -17,6 +18,16 @@ class PuzzleController extends Controller
 {
     public function showPopularPuzzles(){
         $puzzles = Puzzle::take(5)->get();
+        
+        return $puzzles;
+    }
+    
+    public function showIncompletePuzzles(){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors', array('Please log in'));
+        }
+        $puzzles = Puzzle::getIncompletePuzzlesByUser($user);
         
         return $puzzles;
     }
@@ -47,9 +58,11 @@ class PuzzleController extends Controller
     }
     
     public function getPuzzle($slug){
-        $p = Puzzle::where('slug', $slug)
+        $p = Puzzle::with('clues')
+            ->with('puzzle_template')
+            ->where('slug', $slug)
             ->first();
-        $p->puzzle_template = $p->puzzle_template;
+
         $p->clue_squares = $p->puzzle_template->clueSquares();
         $p->puzzle_squares = $p->puzzle_squares();
         $p->owner = $p->owner();
@@ -109,5 +122,25 @@ class PuzzleController extends Controller
         }
         
         return PuzzleSquare::findSuggestion($p, $row, $col);
+    }
+    
+    public function postClue(){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors' => array('Please log in'));
+        }
+        if (!Input::has('puzzle_slug')){
+            return array('errors' => array('Invalid input: no puzzle slug'));
+        }
+        $slug = Input::get('puzzle_slug');
+        $p = Puzzle::findBySlug($slug);
+        if ($user->id != $p->user_id){
+            return array('errors' => array('This is not your puzzle'));
+        }
+        $args = Input::all();
+        
+        $c = Clue::replace($args);
+        
+        return $c;
     }
 }
