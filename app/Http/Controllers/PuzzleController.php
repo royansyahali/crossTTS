@@ -139,6 +139,20 @@ class PuzzleController extends Controller
         return PuzzleSquare::findSuggestion($p, $row, $col);
     }
     
+    public function getProblemSquares($slug){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors' => array('Please log in'));
+        }
+        $p = Puzzle::findBySlug($slug);
+        
+        if ($p->user_id != $user->id){
+            return array('errors', array('This isn\'t your puzzle'));
+        }
+        
+        return $p->findProblemSquares();
+    }
+    
     public function postClue(){
         $user = Auth::user();
         if (!$user){

@@ -43,6 +43,18 @@
 .puzzle table td.selected-letter{
     background-color:lightgoldenrodyellow;
 }
+.puzzle table td.impossible{
+    background-color:pink;
+}
+.puzzle table td.problem1{
+    background-color:rgba(255, 165, 0, .20);
+}
+.puzzle table td.problem2{
+    background-color:rgba(255, 165, 0, .50);
+}
+.puzzle table td.problem3{
+    background-color:rgba(255, 165, 0, .70);
+}
 .bottom-right-button{
     position:absolute;
     bottom:10px;

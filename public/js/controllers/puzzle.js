@@ -11,6 +11,10 @@ materialAdmin
         self.total_suggestion_score = 0;
         self.callingSuggestion = false;
         self.currentSuggestionRequest = '';
+        self.callingProblem = false;
+        self.currentProblemRequest = '';
+        self.problems = [];
+        self.impossibles = [];
         self.possibleClues = {
             across: {},
             down:   {},
@@ -140,16 +144,41 @@ materialAdmin
                 self.suggestions = [];
             }
         }
+        
+        self.getPuzzleProblemSquares = function(){
+            if (self.puzzle.slug){
+                if (!self.callingProblem){
+                    self.callingProblem = true;
+                    puzzleService.getPuzzleProblemSquares(self.puzzle.slug).success(function(d){
+                        if (d['errors']){
+                            for(e in d['errors']){
+                                growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                            }
+                        }else{
+                            self.problems = d['problems'];
+                            self.impossibles = d['impossibles'];
+                        }
+                        self.callingProblem = false;
+                    });
+                }
+            }
+        }
     
         self.setFocusOnSelectedSquare = function() {
             $("[data-row="+self.selectedRow+"][data-col="+self.selectedCol+"] div").focus();
             self.currentSuggestionRequest = self.selectedRow + "-" + self.selectedCol;
+            self.currentProblemRequest = self.selectedRow + "-" + self.selectedCol;
             self.setSelectedClueText();
             $timeout(function(){
                 if (self.currentSuggestionRequest == self.selectedRow + "-" + self.selectedCol){
                     self.getPuzzleSquareSuggestion();
                 }
             }, 1000);
+            $timeout(function(){
+                if (self.currentProblemRequest == self.selectedRow + "-" + self.selectedCol){
+                    self.getPuzzleProblemSquares();
+                }
+            }, 3000);
         };
         
         self.keyDown = function(e){
@@ -359,6 +388,18 @@ materialAdmin
                     }
                     return self.clueNumber(self.selectedRow, col + 1) + 1;
                 }
+            }
+        }
+        
+        self.inImpossible = function(row, col){
+            return self.impossibles.indexOf(row + '-' + col) > -1;
+        }
+        
+        self.inProblem = function(row, col){
+            if (self.problems[row + '-' + col]){
+                return self.problems[row + '-' + col];
+            }else{
+                return 0;
             }
         }
         

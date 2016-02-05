@@ -55,47 +55,36 @@ class Puzzle extends Model {
         return User::find($this->user_id)->select('name')->first()['name'];
     }
     
-    public static function create(array $args = array()){
-        $v = new Puzzle;
-        if ($v->validate($args)){
-            $p = new Puzzle;
-            $p->name = $args['name'];
-            $p->slug = self::findSlug($args['name']);
-            $p->user_id = $args['user_id'];
-            $p->puzzle_template_id = $args['puzzle_template_id'];
-            $p->timestamp_utc = time();
-            $p->save();
-            
-            $ptss = PuzzleTemplateSquare::where('puzzle_template_id', $args['puzzle_template_id'])->get();
-            
-            foreach($ptss as $pts){
-                $ps = new PuzzleSquare;
-                $ps->puzzle_id = $p->id;
-                $ps->row = $pts->row;
-                $ps->col = $pts->col;
-                $letter = "";
-                if (isset($args['puzzle_squares'])){
-                    foreach($args['puzzle_squares'] as $puzzle_square){
-                        if ($puzzle_square['row'] == $pts->row && $puzzle_square['col'] == $pts->col){
-                            $letter = $puzzle_square['letter'];
+    public function findProblemSquares(){
+        $pt = $this->puzzle_template;
+        $blackSquares = $pt->blackSquares();
+        $puzzle_squares = $this->puzzle_squares();
+        
+        $impossibles = array();
+        $problems = array();
+        
+        for($row = 1; $row <= $pt->height; $row++){
+            for($col = 1; $col <= $pt->width; $col++){
+                if (!in_array($row.'-'.$col, $blackSquares)){
+                    if ($puzzle_squares[$row.'-'.$col]['letter'] == ''){
+                        $sugg = PuzzleSquare::findSuggestion($this, $row, $col);
+                        if (count($sugg['suggestions']) == 0){
+                            $impossibles[] = $row.'-'.$col;
+                        }else{
+                            $total = 0;
+                            foreach($sugg['suggestions'] as $s){
+                                $total += $s->score;
+                            }
+                            if($sugg['suggestions'][0]->score/$total > .4){
+                                $problems[$row.'-'.$col] = 100*$sugg['suggestions'][0]->score/$total;
+                            }
                         }
                     }
                 }
-                $ps->letter = $letter;
-                $ps->square_type = $pts->square_type;
-                $ps->save();
             }
-            
-            if (isset($args['clues'])){
-                foreach($args['clues'] as $c){
-                    $p->clues()->save($c);
-                }
-            }
-
-            return $p;
-        }else{
-            return array('errors' => $v->errors);
         }
+        
+        return compact('impossibles', 'problems');
     }
     
     public function activate($sure = false){
@@ -170,6 +159,49 @@ class Puzzle extends Model {
             $this->save();
             
             return array('success' => 1);
+        }
+    }
+    
+    public static function create(array $args = array()){
+        $v = new Puzzle;
+        if ($v->validate($args)){
+            $p = new Puzzle;
+            $p->name = $args['name'];
+            $p->slug = self::findSlug($args['name']);
+            $p->user_id = $args['user_id'];
+            $p->puzzle_template_id = $args['puzzle_template_id'];
+            $p->timestamp_utc = time();
+            $p->save();
+            
+            $ptss = PuzzleTemplateSquare::where('puzzle_template_id', $args['puzzle_template_id'])->get();
+            
+            foreach($ptss as $pts){
+                $ps = new PuzzleSquare;
+                $ps->puzzle_id = $p->id;
+                $ps->row = $pts->row;
+                $ps->col = $pts->col;
+                $letter = "";
+                if (isset($args['puzzle_squares'])){
+                    foreach($args['puzzle_squares'] as $puzzle_square){
+                        if ($puzzle_square['row'] == $pts->row && $puzzle_square['col'] == $pts->col){
+                            $letter = $puzzle_square['letter'];
+                        }
+                    }
+                }
+                $ps->letter = $letter;
+                $ps->square_type = $pts->square_type;
+                $ps->save();
+            }
+            
+            if (isset($args['clues'])){
+                foreach($args['clues'] as $c){
+                    $p->clues()->save($c);
+                }
+            }
+
+            return $p;
+        }else{
+            return array('errors' => $v->errors);
         }
     }
     

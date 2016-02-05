@@ -133,8 +133,8 @@ class PuzzleSquare extends Model {
         
         $suggestions = DB::select(DB::raw($query), $params);
         
-        $word_count = Word::count();
+        //$word_count = Word::count();
         
-        return compact('word_count', 'suggestions');
+        return compact('suggestions');
     }
 }

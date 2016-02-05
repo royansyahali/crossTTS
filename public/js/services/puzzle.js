@@ -65,6 +65,13 @@ materialAdmin
         }
         
         
+        this.getPuzzleProblemSquares = function (slug){
+            return $http({
+                method: 'get',
+                url: "/puzzles/" + slug + "/problem_squares"
+              });
+        }
+        
         this.getPuzzleSquareSuggestion = function (slug, row, col){
             return $http({
                 method: 'get',

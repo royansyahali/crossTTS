@@ -12,6 +12,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/puzzles', 'PuzzleController@showPopularPuzzles');
     Route::get('/incomplete_puzzles', 'PuzzleController@showIncompletePuzzles');
     Route::get('/puzzles/{slug}', 'PuzzleController@getPuzzle');
+    Route::get('/puzzles/{slug}/problem_squares', 'PuzzleController@getProblemSquares');
     Route::post('/puzzles', 'PuzzleController@postPuzzle');
     Route::post('/puzzles/activate', 'PuzzleController@activatePuzzle');
     
