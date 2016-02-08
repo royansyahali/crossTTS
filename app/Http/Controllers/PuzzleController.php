@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Clue;
 use App\Models\Puzzle;
+use App\Models\PuzzleGuess;
+use App\Models\PuzzleGuessSquare;
 use App\Models\PuzzleSquare;
 use App\Models\PuzzleTemplate;
 use App\Models\User;
@@ -206,5 +208,18 @@ class PuzzleController extends Controller
         $c = Clue::replace($args);
         
         return $c;
+    }
+    
+    public function postGuessSquare(){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors' => array('Please log in'));
+        }
+        $args = Input::all();
+        $args['user_id'] = $user->id;
+        
+        $pgs = PuzzleGuessSquare::replace($args);
+        
+        return $pgs;
     }
 }

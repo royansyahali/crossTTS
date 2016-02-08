@@ -62,7 +62,14 @@ class Puzzle extends Model {
                 ->orderBy('row')
                 ->get();
                 
-            return $pgs;
+            $ret = array();
+            foreach($pgs as $pg){
+                $ret[$pg->row.'-'.$pg->col] = array(
+                    'letter' => $pg->letter,
+                );
+            }
+                
+            return $ret;
         }
     }
     

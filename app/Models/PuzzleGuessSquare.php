@@ -36,7 +36,7 @@ class PuzzleGuessSquare extends Model {
         return $this->belongsTo(PuzzleGuess::class);
     }
     
-    public static function create(array $args = array()){
+    public static function replace(array $args = array()){
         $v = new PuzzleGuessSquare;
         if ($v->validate($args)){
             $pg = PuzzleGuess::whereRaw('puzzle_id in (select id from puzzles where slug = ?)', array($args['puzzle_slug']))

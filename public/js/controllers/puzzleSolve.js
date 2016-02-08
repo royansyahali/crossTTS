@@ -97,7 +97,7 @@ materialAdmin
                 var oldLetter = self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter;
                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = String.fromCharCode(e.keyCode);
                 var sent = {
-                    puzzle_id: self.puzzle.id,
+                    puzzle_slug: self.puzzle.slug,
                     row: self.selectedRow,
                     col: self.selectedCol,
                     letter: String.fromCharCode(e.keyCode),
@@ -133,7 +133,7 @@ materialAdmin
                         //backspace
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = '';
                         var sent = {
-                            puzzle_id: self.puzzle.id,
+                            puzzle_slug: self.puzzle.slug,
                             row: self.selectedRow,
                             col: self.selectedCol,
                             letter: '',
@@ -156,7 +156,7 @@ materialAdmin
                         //delete
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = '';
                         var sent = {
-                            puzzle_id: self.puzzle.id,
+                            puzzle_slug: self.puzzle.slug,
                             row: self.selectedRow,
                             col: self.selectedCol,
                             letter: '',

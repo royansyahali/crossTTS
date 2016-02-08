@@ -87,7 +87,7 @@ class GuessingASquareTest extends TestCase
             'user_id' => $user_guesser->id,
         );
         
-        $pgs = PuzzleGuessSquare::create($args);
+        $pgs = PuzzleGuessSquare::replace($args);
         
         $this->actingAs($user_guesser)->visit('/puzzles/'.$puzzle->slug)->see($guess);
     }
