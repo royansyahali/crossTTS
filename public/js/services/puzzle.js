@@ -1,10 +1,11 @@
 materialAdmin
 
     .service('puzzleService', ['$http', function($http){
-        this.getPuzzles = function() {
+        this.getPuzzles = function(limit) {
+            limit = typeof limit !== 'undefined' ? limit : 100;
             return $http({
                 method: 'get',
-                url: "/puzzles"
+                url: "/puzzles/list/" + limit
               });
         };
         

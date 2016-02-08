@@ -9,7 +9,46 @@
             <div class="block-header">
                 <h2>Dashboard</h2>
             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Recent Items -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Puzzles <small>Here are some puzzles. Dive in!</small></h2>
+                        </div>
 
+                        <div class="card-body m-t-0">
+                            <table class="table table-inner table-vmiddle">
+                                <tbody>
+                                    <tr data-ng-repeat="p in dctrl.puzzles">
+                                        <td><a href="/#/puzzles/solve/{{p.slug}}">{{ p.name }}</a></td>
+                                        <td>by <a href="/#/users/{{p.username}}">{{p.owner}}</a></td>
+                                        <td>{{p.created}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="recent-items-chart" class="flot-chart" data-line-chart></div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Your incomplete puzzles</h2>
+                        </div>
+
+                        <div class="card-body m-t-0">
+                            <table class="table table-inner table-vmiddle">
+                                <tbody>
+                                    <tr data-ng-repeat="p in dctrl.incompletePuzzles">
+                                        <td><a href="/#/puzzles/edit/{{p.slug}}">{{ p.name }}</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </section>

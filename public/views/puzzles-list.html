@@ -1,7 +1,7 @@
 <div class="container" data-ng-controller="puzzlesCtrl as pctrl">
     <div class="card">
         <div class="card-header">
-            <h2>Filter Your Templates</h2>
+            <h2>Filter Your Puzzles</h2>
         </div>
         <div class="card-body card-padding">
             <div class="row">
@@ -50,7 +50,7 @@
                         <td><a href="/users/{{p.username}}">{{p.owner}}</a></td>
                         <td>{{p.created}}</td>
                     </tr>
-                    <tr ng-hide="(pctrl.puzzletemplates | filter:pctrl.filterResults).length > 0"><td colspan="5">No results. Check your filters - You may be filtering all of them out.</td></tr>
+                    <tr ng-hide="(pctrl.puzzles | filter:pctrl.filterResults).length > 0"><td colspan="5">No results. Check your filters - You may be filtering all of them out.</td></tr>
                 </table>
                 <div class="ng-table-pager">
                     <ul class="pagination ng-table-pagination">
