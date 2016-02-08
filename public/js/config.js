@@ -84,7 +84,7 @@ materialAdmin
             })
 
             .state ('puzzles.solve', {
-                url: '/solve/:puzzle_id',
+                url: '/solve/:puzzle_slug',
                 templateUrl: 'views/puzzle-solve.html'
             })
             

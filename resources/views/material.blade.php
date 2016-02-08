@@ -120,7 +120,8 @@
         <script src="js/controllers/ui-bootstrap.js"></script>
         <script src="js/controllers/dashboard.js"></script>
         <script src="js/controllers/table.js"></script>
-        <script src="js/controllers/puzzle.js"></script>
+        <script src="js/controllers/puzzleEdit.js"></script>
+        <script src="js/controllers/puzzleSolve.js"></script>
         <script src="js/controllers/puzzles.js"></script>
         <script src="js/controllers/puzzleTemplate.js"></script>
         <script src="js/controllers/puzzleTemplates.js"></script>

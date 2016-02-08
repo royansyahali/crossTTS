@@ -33,15 +33,19 @@ class Puzzle extends Model {
         return $this->hasMany(Clue::class);
     }
     
-    public function puzzle_squares(){
+    public function puzzle_squares($include_answers = false){
         $ret = array();
         
         $db = PuzzleSquare::where('puzzle_id', $this->id)->orderBy('row')->orderBy('col')->get();
         foreach($db as $ps){
             $ret[$ps->row.'-'.$ps->col] = array(
-                'letter' => $ps->letter,
                 'square_type' => $ps->square_type,
             );
+            if ($include_answers){
+                $ret[$ps->row.'-'.$ps->col] = array(
+                    'letter' => $ps->letter,
+                );
+            }
         }
         
         return $ret;
@@ -94,13 +98,17 @@ class Puzzle extends Model {
         $words = array();
 
         $pt = $this->puzzle_template;
+        $pt->blackSquares = $pt->blackSquares();
+        
         $squares = $this->puzzle_squares();
         $clues = $this->clues;
         
         $ordinal = 1;
         for($row = 1; $row <= $pt->height; $row++){
             for($col = 1; $col <= $pt->width; $col++){
-                if ($squares[$row.'-'.$col]['letter'] == "" && $squares[$row.'-'.$col]['square_type'] != 'black'){
+                if (!in_array($row.'-'.$col, $pt->blackSquares)
+                    && $squares[$row.'-'.$col]['square_type'] != 'black'
+                    && (!@$squares[$row.'-'.$col]['letter'] || $squares[$row.'-'.$col]['letter'] == "")){
                     $missing_letters[] = $row.'-'.$col;
                 }
                 $square_should_have_across_clue = false;

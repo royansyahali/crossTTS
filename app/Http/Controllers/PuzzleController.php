@@ -78,14 +78,37 @@ class PuzzleController extends Controller
         return $p->activate();
     }
     
+    public function getPuzzleForEdit($slug){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors' => array('Please log in'));
+        }
+        if (!Input::has('slug')){
+            return array('errors' => array('No puzzle selected'));
+        }
+        $p = Puzzle::with('clues')
+            ->with('puzzle_template')
+            ->where('slug', $slug)
+            ->first();
+        if ($p->user_id != $user->id){
+            return array('errors' => array('This is not your puzzle'));
+        }
+
+        $p->clue_squares = $p->puzzle_template->clueSquares();
+        $p->puzzle_squares = $p->puzzle_squares(true);
+        $p->owner = $p->owner();
+        
+        return $p;
+    }
+    
     public function getPuzzle($slug){
         $p = Puzzle::with('clues')
             ->with('puzzle_template')
             ->where('slug', $slug)
             ->first();
-
+        
         $p->clue_squares = $p->puzzle_template->clueSquares();
-        $p->puzzle_squares = $p->puzzle_squares();
+        $p->puzzle_squares = $p->puzzle_squares(false);
         $p->owner = $p->owner();
         
         return $p;

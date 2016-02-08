@@ -23,6 +23,13 @@ materialAdmin
               });
         };
         
+        this.getPuzzleForEdit = function(slug) {
+            return $http({
+                method: 'get',
+                url: "/puzzles/" + slug + "/edit"
+              });
+        };
+        
         this.createPuzzle = function(sent){
             return $http({
                 method: 'post',
@@ -84,6 +91,16 @@ materialAdmin
             return $http({
                 method: 'post',
                 url: '/puzzle_square',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(sent)
+            });
+        }
+        
+        
+        this.setPuzzleGuessSquare = function (sent){
+            return $http({
+                method: 'post',
+                url: '/puzzle_guess_square',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 data: $.param(sent)
             });
