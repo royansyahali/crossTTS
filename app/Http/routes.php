@@ -9,7 +9,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/puzzle_templates/{slug}', 'PuzzleController@getPuzzleTemplate');
     Route::post('/puzzle_templates', 'PuzzleController@postPuzzleTemplate');
     
-    Route::get('/puzzles', 'PuzzleController@showPopularPuzzles');
+    Route::get('/puzzles', 'PuzzleController@getPuzzles');
     Route::get('/incomplete_puzzles', 'PuzzleController@showIncompletePuzzles');
     Route::get('/puzzles/{slug}', 'PuzzleController@getPuzzle');
     Route::get('/puzzles/{slug}/problem_squares', 'PuzzleController@getProblemSquares');

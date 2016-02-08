@@ -15,6 +15,10 @@ materialAdmin
             puzzleService.getIncompletePuzzles().success(function(d){
                 self.puzzles = d;
             });
+        }else if($location.path().substr(0,13) == '/puzzles/list'){
+            puzzleService.getPuzzles().success(function(d){
+                self.puzzles = d;
+            });
         }
         
         self.changeSort = function(s){
@@ -35,9 +39,8 @@ materialAdmin
             }
         };
         
-        self.filterResults = function(pt){
-            return true;
-            //return pt.height >= self.heightMin && pt.width >= self.widthMin && pt.height <= self.widthMax && pt.height <= self.heightMax && (self.search == '' || pt.name.toLowerCase().indexOf(self.search.toLowerCase()) > -1);
+        self.filterResults = function(p){
+            return p.height >= self.heightMin && p.width >= self.widthMin && p.height <= self.widthMax && p.height <= self.heightMax && (self.search == '' || p.name.toLowerCase().indexOf(self.search.toLowerCase()) > -1);
         }
         
         self.changePage = function(p){

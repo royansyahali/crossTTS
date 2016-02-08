@@ -22,6 +22,18 @@ class PuzzleController extends Controller
         return $puzzles;
     }
     
+    public function getPuzzles(){
+        $puzzles = Puzzle::where('puzzles.active', 1)
+            ->leftJoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
+            ->leftJoin('users', 'users.id', '=', 'puzzles.user_id')
+            ->selectRaw('puzzles.name, puzzles.slug, users.name as owner, users.username, puzzle_templates.width, puzzle_templates.height, concat(from_unixtime(puzzles.timestamp_utc), \' GMT\') created')
+            ->orderBy('puzzles.timestamp_utc', 'desc')
+            ->take(100)
+            ->get();
+        
+        return $puzzles;
+    }
+    
     public function showIncompletePuzzles(){
         $user = Auth::user();
         if (!$user){
