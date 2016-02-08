@@ -49,6 +49,23 @@ class Puzzle extends Model {
         return $ret;
     }
     
+    public function guess_squares($user_id = 0){
+        $ps = PuzzleGuess::where('puzzle_id', $this->id)
+            ->where('user_id', $user_id)
+            ->first();
+            
+        if (!$ps){
+            return array();
+        }else{
+            $pgs = PuzzleGuessSquare::where('puzzle_guess_id', $ps->id)
+                ->orderBy('col')
+                ->orderBy('row')
+                ->get();
+                
+            return $pgs;
+        }
+    }
+    
     public function puzzle_template(){
         return $this->belongsTo(PuzzleTemplate::class);
     }

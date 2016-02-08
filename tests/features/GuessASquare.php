@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Models\Letter;
 use App\Models\Puzzle;
+use App\Models\PuzzleGuessSquare;
 use App\Models\PuzzleSquare;
 use App\Models\PuzzleTemplate;
 use App\Models\User;
@@ -82,11 +83,12 @@ class GuessingASquareTest extends TestCase
             'puzzle_slug' => $puzzle->slug,
             'row' => 1,
             'col' => 1,
-            'letter' => $guess
+            'letter' => $guess,
+            'user_id' => $user_guesser->id,
         );
         
-        PuzzleGuessSquare::create($args);
+        $pgs = PuzzleGuessSquare::create($args);
         
-        $this->actingAs($user_guesser)->visit('/puzzle/'.$puzzle->slug)->see($guess);
+        $this->actingAs($user_guesser)->visit('/puzzles/'.$puzzle->slug)->see($guess);
     }
 }

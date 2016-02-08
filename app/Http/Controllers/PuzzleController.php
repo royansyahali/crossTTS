@@ -110,6 +110,12 @@ class PuzzleController extends Controller
         $p->clue_squares = $p->puzzle_template->clueSquares();
         $p->puzzle_squares = $p->puzzle_squares(false);
         $p->owner = $p->owner();
+        $user = Auth::user();
+        if ($user){
+            $p->guess_squares = $p->guess_squares($user->id);
+        }else{
+            $p->guess_squares = array();
+        }
         
         return $p;
     }
