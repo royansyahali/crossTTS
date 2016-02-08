@@ -508,7 +508,7 @@ class ActivateAPuzzleTest extends TestCase
         }
         
         $ret = $puzzle->activate();
-        var_dump($ret);
+        
         $this->assertEquals($puzzle->active, 1);
     }
 }

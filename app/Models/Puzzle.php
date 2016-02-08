@@ -42,9 +42,7 @@ class Puzzle extends Model {
                 'square_type' => $ps->square_type,
             );
             if ($include_answers){
-                $ret[$ps->row.'-'.$ps->col] = array(
-                    'letter' => $ps->letter,
-                );
+                $ret[$ps->row.'-'.$ps->col]['letter'] = $ps->letter;
             }
         }
         
@@ -100,7 +98,7 @@ class Puzzle extends Model {
         $pt = $this->puzzle_template;
         $pt->blackSquares = $pt->blackSquares();
         
-        $squares = $this->puzzle_squares();
+        $squares = $this->puzzle_squares(true);
         $clues = $this->clues;
         
         $ordinal = 1;
