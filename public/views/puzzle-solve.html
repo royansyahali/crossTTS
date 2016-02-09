@@ -40,7 +40,7 @@
                                 data-col="{{col}}"
                                 data-clue-number="{{pctrl.clueNumber(row, col) + 1}}"
                                 ng-click="pctrl.selectLetter(row, col)">
-                                    <div contenteditable="true" ng-model="pctrl.puzzle.guess_squares[row + '-' + col].letter"></div>
+                                    <div contenteditable="{{pctrl.puzzle.solved == 1 ? 'false' : 'true'}}" ng-model="pctrl.puzzle.guess_squares[row + '-' + col].letter"></div>
                             </td>
                         </tr>
                     </table>

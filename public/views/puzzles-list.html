@@ -44,10 +44,10 @@
                     </thead>
                     
                     <tr ng-repeat="p in pctrl.puzzles | orderBy:pctrl.currentSort | filter:pctrl.filterResults | startFrom:(pctrl.currentPage-1)*pctrl.pageSize | limitTo:pctrl.pageSize">
-                        <td><a href="#/puzzles/{{p.slug}}">{{p.name}}</a></td>
+                        <td><a href="#/puzzles/solve/{{p.slug}}">{{p.name}}</a></td>
                         <td>{{p.width}}</td>
                         <td>{{p.height}}</td>
-                        <td><a href="/users/{{p.username}}">{{p.owner}}</a></td>
+                        <td><a href="#/users/{{p.username}}">{{p.owner}}</a></td>
                         <td>{{p.created}}</td>
                     </tr>
                     <tr ng-hide="(pctrl.puzzles | filter:pctrl.filterResults).length > 0"><td colspan="5">No results. Check your filters - You may be filtering all of them out.</td></tr>

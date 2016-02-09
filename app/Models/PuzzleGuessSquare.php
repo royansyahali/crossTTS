@@ -42,7 +42,11 @@ class PuzzleGuessSquare extends Model {
             $puzzle_guess = PuzzleGuess::whereRaw('puzzle_id in (select id from puzzles where slug = ?)', array($args['puzzle_slug']))
                 ->where('user_id', $args['user_id'])
                 ->first();
-                
+            
+            if ($puzzle_guess->solved()){
+                return array('errors' => array('This puzzle is already solved'));
+            }
+            
             $p = Puzzle::where('slug', $args['puzzle_slug'])->first();
             
             if (!$puzzle_guess){

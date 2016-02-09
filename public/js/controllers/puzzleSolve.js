@@ -87,13 +87,12 @@ materialAdmin
         
         self.keyDown = function(e){
             var preventDefault = true;
-            if ($('#clue:focus').length > 0){
-                if (e.keyCode == 13){
-                    //save clue text
-                }
-                return;
-            }
             if (e.keyCode > 64 && e.keyCode < 91){
+                if (self.puzzle.solved == 1){
+                    growlService.growl('This puzzle has already been solved', 'info');
+                    e.preventDefault();
+                    return;
+                }
                 var oldLetter = self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter;
                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = String.fromCharCode(e.keyCode);
                 var sent = {
