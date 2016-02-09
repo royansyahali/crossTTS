@@ -108,6 +108,10 @@ materialAdmin
                             growlService.growl('There was an error: ' + received['errors'][e], 'danger');
                         }
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
+                    }else{
+                        if (received['solved'] == 1){
+                            self.puzzle.solved = 1;
+                        }
                     }
                 });
                 self.moveNext();

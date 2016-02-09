@@ -39,28 +39,29 @@ class PuzzleGuessSquare extends Model {
     public static function replace(array $args = array()){
         $v = new PuzzleGuessSquare;
         if ($v->validate($args)){
-            $pg = PuzzleGuess::whereRaw('puzzle_id in (select id from puzzles where slug = ?)', array($args['puzzle_slug']))
+            $puzzle_guess = PuzzleGuess::whereRaw('puzzle_id in (select id from puzzles where slug = ?)', array($args['puzzle_slug']))
                 ->where('user_id', $args['user_id'])
                 ->first();
-            if (!$pg){
-                $p = Puzzle::where('slug', $args['puzzle_slug'])->first();
                 
-                $pg = new PuzzleGuess;
-                $pg->user_id = $args['user_id'];
-                $pg->puzzle_id = $p->id;
-                $pg->created_timestamp_utc = time();
-            }
-            $pg->updated_timestamp_utc = time();
-            $pg->save();
+            $p = Puzzle::where('slug', $args['puzzle_slug'])->first();
             
-            $pgs = PuzzleGuessSquare::where('puzzle_guess_id', $pg->id)
+            if (!$puzzle_guess){
+                $puzzle_guess = new PuzzleGuess;
+                $puzzle_guess->user_id = $args['user_id'];
+                $puzzle_guess->puzzle_id = $p->id;
+                $puzzle_guess->created_timestamp_utc = time();
+            }
+            $puzzle_guess->updated_timestamp_utc = time();
+            $puzzle_guess->save();
+            
+            $pgs = PuzzleGuessSquare::where('puzzle_guess_id', $puzzle_guess->id)
                 ->where('row', $args['row'])
                 ->where('col', $args['col'])
                 ->first();
             
             if (!$pgs){
                 $pgs = new PuzzleGuessSquare;
-                $pgs->puzzle_guess_id = $pg->id;
+                $pgs->puzzle_guess_id = $puzzle_guess->id;
                 $pgs->row = $args['row'];
                 $pgs->col = $args['col'];
             }
@@ -70,8 +71,9 @@ class PuzzleGuessSquare extends Model {
             }
             $pgs->save();
             
-            return $pgs;
+            $pgs['solved'] = $puzzle_guess->solved();
             
+            return $pgs;
         }else{
             return array('errors' => $v->errors);
         }

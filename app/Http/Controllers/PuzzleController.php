@@ -111,8 +111,19 @@ class PuzzleController extends Controller
         $p->owner = $p->owner();
         $user = Auth::user();
         if ($user){
+            $guess = PuzzleGuess::where('puzzle_id', $p->id)
+                ->where('user_id', $user->id)
+                ->first();
+                
+            if ($guess){
+                $p->solved = $guess->solved();
+            }else{
+                $p->solved = 0;
+            }
+            
             $p->guess_squares = $p->guess_squares($user->id);
         }else{
+            $p->solved = 0;
             $p->guess_squares = array();
         }
         
