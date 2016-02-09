@@ -178,7 +178,7 @@ materialAdmin
                 if (self.currentProblemRequest == self.selectedRow + "-" + self.selectedCol){
                     self.getPuzzleProblemSquares();
                 }
-            }, 3000);
+            }, 1000);
         };
         
         self.keyDown = function(e){

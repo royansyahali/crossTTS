@@ -85,9 +85,6 @@ class PuzzleController extends Controller
         if (!$user){
             return array('errors' => array('Please log in'));
         }
-        if (!Input::has('slug')){
-            return array('errors' => array('No puzzle selected'));
-        }
         $p = Puzzle::with('clues')
             ->with('puzzle_template')
             ->where('slug', $slug)

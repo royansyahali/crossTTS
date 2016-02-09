@@ -84,7 +84,7 @@ class Puzzle extends Model {
     public function findProblemSquares(){
         $pt = $this->puzzle_template;
         $blackSquares = $pt->blackSquares();
-        $puzzle_squares = $this->puzzle_squares();
+        $puzzle_squares = $this->puzzle_squares(true);
         
         $impossibles = array();
         $problems = array();
