@@ -88,8 +88,13 @@ class PuzzleController extends Controller
         }
 
         $p->clue_squares = $p->puzzle_template->clueSquares();
+        $template_owner = User::find($p->puzzle_template->user_id);
+        $p->puzzle_template->owner = $template_owner->name;
+        $p->puzzle_template->owner_username = $template_owner->username;
+        $puzzle_owner = User::find($p->user_id);
+        $p->owner = $puzzle_owner->name;
+        $p->owner_username = $puzzle_owner->username;
         $p->puzzle_squares = $p->puzzle_squares(true);
-        $p->owner = $p->owner();
         
         return $p;
     }
@@ -107,7 +112,12 @@ class PuzzleController extends Controller
         
         $p->clue_squares = $p->puzzle_template->clueSquares();
         $p->puzzle_squares = $p->puzzle_squares(false);
-        $p->owner = $p->owner();
+        $template_owner = User::find($p->puzzle_template->user_id);
+        $p->puzzle_template->owner = $template_owner->name;
+        $p->puzzle_template->owner_username = $template_owner->username;
+        $puzzle_owner = User::find($p->user_id);
+        $p->owner = $puzzle_owner->name;
+        $p->owner_username = $puzzle_owner->username;
         $user = Auth::user();
         if ($user){
             $guess = PuzzleGuess::where('puzzle_id', $p->id)

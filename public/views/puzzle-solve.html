@@ -1,9 +1,9 @@
 <div class="container" data-ng-controller="puzzleSolveCtrl as pctrl" ng-keydown="pctrl.keyDown($event)">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" style="z-index:3">
             <h2>{{pctrl.puzzle.name}}</h2>
-            <div><small>template by {{pctrl.puzzle.puzzle_template.owner}}</small></div>
-            <div><small>puzzle by {{pctrl.puzzle.owner}}</small></div>
+            <div><small>template by <a href="#/users/{{pctrl.puzzle.puzzle_template.owner_username}}">{{pctrl.puzzle.puzzle_template.owner}}</a></small></div>
+            <div><small>puzzle by <a href="#/users/{{pctrl.puzzle.owner_username}}">{{pctrl.puzzle.owner}}</a></small></div>
         </div>
         <div class="card-body" style="min-height:530px;">
             <div class="puzzle-edit-clues-container">
