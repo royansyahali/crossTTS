@@ -8,7 +8,7 @@ materialAdmin
             self.puzzles = d;
         });
         
-        profileService.getProfile().success(function(profile){
+        profileService.getMe().success(function(profile){
             self.profile = profile;
             if (profile.logged_in){
                 puzzleService.getIncompletePuzzles().success(function(d){

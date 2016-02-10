@@ -1,0 +1,35 @@
+<div class="container" data-ng-controller="profileCtrl as pctrl">
+
+    <div class="block-header">
+        <h2>{{pctrl.profile.name}}</h2>
+    </div>
+
+    <div class="card" id="profile-main">
+        <div class="pm-overview c-overflow">
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a href="">
+                        <img class="img-responsive" src="{{pctrl.profile.profile_image_base_url}}_400x400.jpeg" alt="">
+                    </a>
+                </div>
+
+                <div class="pmo-stat">
+                    <h2 class="m-0 c-white">{{pctrl.profile.puzzles.length}}</h2>
+                    Total Puzzles
+                </div>
+            </div>
+
+            <div class="pmo-block pmo-contact hidden-xs">
+                <ul>
+                    <li><a href="https://twitter.com/{{ pctrl.profile.twitter_handle }}" target="_new"><i class="zmdi zmdi-twitter"></i> {{ pctrl.profile.twitter_handle }} (twitter.com/{{ pctrl.profile.twitter_handle }})</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pm-body clearfix">
+            <ul class="tab-nav tn-justified" data-ng-include="'template/profile-menu.html'"></ul>
+
+            <data ui-view></data>
+        </div>
+    </div>
+</div>

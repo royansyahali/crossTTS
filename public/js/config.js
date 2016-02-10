@@ -134,4 +134,37 @@ materialAdmin
                 url: '/:puzzle_template_id',
                 templateUrl: 'views/puzzle-template-detail.html'
             })
+            
+        
+            //Profile
+        
+            .state ('users', {
+                url: '/users',
+                templateUrl: 'views/common.html'
+            })
+            
+            .state ('users.profile', {
+                url: '/:username',
+                templateUrl: 'views/profile.html'
+            })
+        
+            .state ('users.profile.about', {
+                url: '/about',
+                templateUrl: 'views/profile-about.html'
+            })
+        
+            .state ('users.profile.timeline', {
+                url: '/timeline',
+                templateUrl: 'views/profile-timeline.html'
+            })
+            
+            .state ('users.profile.photos', {
+                url: '/photos',
+                templateUrl: 'views/profile-photos.html',
+            })
+        
+            .state ('users.profile.connections', {
+                url: '/connections',
+                templateUrl: 'views/profile-connections.html'
+            })
     });

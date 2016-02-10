@@ -22,4 +22,10 @@ class UserController extends Controller
         
         return $user->puzzles;
     }
+    
+    public function getProfile($username){
+        $user = User::findByUserName($username);
+        
+        return $user->profile();
+    }
 }

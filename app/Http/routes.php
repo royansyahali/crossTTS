@@ -32,6 +32,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/auth/twitter', 'AuthController@redirectToProvider');
     Route::get('/auth/twitter/callback', 'AuthController@handleProviderCallback');
     
+    Route::get('/users/{username}', 'UserController@getProfile');
     Route::get('/users/{username}/puzzles', 'UserController@showPuzzles');
     Route::get('/users/{username}/puzzle_templates', 'UserController@showPuzzleTemplates');
 

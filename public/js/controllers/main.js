@@ -49,7 +49,7 @@ materialAdmin
         $scope.profile = {};
         $scope.profile.logged_in = false;
 
-        profileService.getProfile().success(angular.bind(this, function(d){
+        profileService.getMe().success(angular.bind(this, function(d){
             $scope.profile = d;
             if (d.logged_in){
                 this.profileBgImage = {'background-image': 'url(' + d.profile_background_image_url + ')',
