@@ -48,6 +48,24 @@ materialAdmin
               });
         }
         
+        this.deletePuzzle = function(sent){
+            return $http({
+                method: 'post',
+                url: "/puzzles/" + sent['puzzle_slug'] + "/delete",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(sent)
+              });
+        }
+        
+        this.setName = function(sent){
+            return $http({
+                method: 'post',
+                url: "/puzzles/setname",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(sent)
+              });
+        }
+        
         
         this.createTemplate = function(template){
             return $http({

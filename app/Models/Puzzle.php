@@ -236,7 +236,7 @@ class Puzzle extends Model {
     }
     
     public static function findBySlug($slug){
-        return self::where('slug', $slug)->first();
+        return self::where('slug', $slug)->whereNull('puzzles.deleted_timestamp_utc')->first();
     }
     
     public static function findSlug($name){
@@ -256,6 +256,25 @@ class Puzzle extends Model {
             ->leftjoin('users', 'users.id', '=', 'puzzles.user_id')
             ->select('puzzles.name', 'puzzles.slug', 'puzzles.timestamp_utc', 'puzzle_templates.width', 'puzzle_templates.height', 'users.name as owner', 'users.username')
             ->where('puzzles.user_id', $user->id)
+            ->whereNull('puzzles.deleted_timestamp_utc')
             ->where('puzzles.active', 0)->get();
+    }
+    
+    public static function getPuzzles($limit){
+        return Puzzle::where('puzzles.active', 1)
+            ->whereNull('puzzles.deleted_timestamp_utc')
+            ->leftJoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
+            ->leftJoin('users', 'users.id', '=', 'puzzles.user_id')
+            ->selectRaw('puzzles.name, puzzles.slug, users.name as owner, users.username, puzzle_templates.width, puzzle_templates.height, concat(from_unixtime(puzzles.timestamp_utc), \' GMT\') created')
+            ->orderBy('puzzles.timestamp_utc', 'desc')
+            ->take($limit)
+            ->get();
+    }
+    
+    public function delete(){
+        $this->deleted_timestamp_utc = time();
+        $this->save();
+        
+        return array('success' => 1);
     }
 }

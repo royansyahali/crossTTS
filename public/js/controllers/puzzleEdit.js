@@ -19,6 +19,7 @@ materialAdmin
             across: {},
             down:   {},
         };
+        self.editName = false;
         
         puzzleService.getPuzzleForEdit($stateParams.puzzle_slug).success(function(d){
             self.puzzle = d;
@@ -181,11 +182,48 @@ materialAdmin
             }, 3000);
         };
         
+        self.saveName = function(){
+            var sent = {
+                name: self.puzzle.name,
+                puzzle_slug: self.puzzle.slug
+            };
+            puzzleService.setName(sent).success(function(d){
+                if (d['errors']){
+                    for(e in d['errors']){
+                        growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                    }
+                }else{
+                    self.editName = false;
+                    $location.path('/puzzles/edit/' + d['slug']);
+                }
+            });
+        };
+        
         self.keyDown = function(e){
             var preventDefault = true;
             if ($('#clue:focus').length > 0){
                 if (e.keyCode == 13){
-                    //save clue text
+                    self.saveClue();
+                }
+                return;
+            }
+            if (document.activeElement.id == 'puzzlename'){
+                if (e.keyCode == 8 || //backspace
+                e.keyCode == 46 || //delete
+                (e.keyCode >= 48 && e.keyCode <= 90) || //letters, numbers
+                e.keyCode == 189 || e.keyCode == 173 || //dash, underscore
+                e.keyCode == 188 || e.keyCode == 190 || //comma, period
+                (e.keyCode >= 35 && e.keyCode <= 40) || //home, end, directions
+                e.keyCode == 32 //space
+                ){
+                    //do nothing
+                }else if (e.keyCode == 13){
+                    console.log("enter pressed (from controller)");
+                    e.preventDefault();
+                    $("#puzzlename").blur();
+                    return false;
+                }else{
+                    e.preventDefault();
                 }
                 return;
             }
@@ -474,6 +512,24 @@ materialAdmin
             self.selectedRow = row;
             self.selectedCol = col;
         };
+        
+        self.deletePuzzle = function(){
+            var sent = {
+                puzzle_slug: self.puzzle.slug
+            };
+            puzzleService.deletePuzzle(sent).success(function(received){
+                if (received['errors']){
+                    for(e in received['errors']){
+                        growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                    }
+                }
+                growlService.growl('Success: this puzzle has been deleted', 'info');
+                
+                $timeout(function(){
+                    $location.path('/');
+                }, 1000);
+            });
+        }
         
         self.selectedLetter = function(row, col){
             return self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol];

@@ -7,7 +7,7 @@ materialAdmin
                 elm.bind('keydown', function(event) {
                     var keyCode = event.which || event.keyCode;
                     
-                    if (keyCode > 64 && keyCode < 91){
+                    if (keyCode > 64 && keyCode < 91 && event.currentTarget.attributes['data-type'].nodeValue == "letter"){
                         elm.html(String.fromCharCode(keyCode));
                         event.preventDefault();
                     }

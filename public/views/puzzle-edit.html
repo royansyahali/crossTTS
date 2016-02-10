@@ -1,12 +1,15 @@
 <div class="container" data-ng-controller="puzzleEditCtrl as pctrl" ng-keydown="pctrl.keyDown($event)">
     <div class="card">
         <div class="card-header">
-            <h2>{{pctrl.puzzle.name}}</h2>
+            <h2>
+                <div ng-click="pctrl.editName = true;" ng-hide="pctrl.editName">{{pctrl.puzzle.name}}</div>
+                <input id="puzzlename" ng-model="pctrl.puzzle.name" ng-show="pctrl.editName" ng-blur="pctrl.saveName()" style="width:500px; height: 25px;"/>
+            </h2>
             <div><small>template by {{pctrl.puzzle.puzzle_template.owner}}</small></div>
             <div><small>puzzle by {{pctrl.puzzle.owner}}</small></div>
         </div>
         <div class="card-body" style="min-height:530px;">
-            <div class="btn btn-danger top-right-x">x</div>
+            <div class="btn btn-danger top-right-x" ng-click="pctrl.deletePuzzle()">x</div>
             <div class="puzzle-edit-clues-container">
                 <h3>Clues</h3>
                 <div>
@@ -41,7 +44,7 @@
                                 data-col="{{col}}"
                                 data-clue-number="{{pctrl.clueNumber(row, col) + 1}}"
                                 ng-click="pctrl.selectLetter(row, col)">
-                                    <div contenteditable="true" ng-model="pctrl.puzzle.puzzle_squares[row + '-' + col].letter"></div>
+                                    <div contenteditable="true" ng-model="pctrl.puzzle.puzzle_squares[row + '-' + col].letter" data-type="letter"></div>
                             </td>
                         </tr>
                     </table>

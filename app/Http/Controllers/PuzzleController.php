@@ -19,15 +19,7 @@ use App\Models\User;
 class PuzzleController extends Controller
 {
     public function getPuzzles($limit = 100){
-        $puzzles = Puzzle::where('puzzles.active', 1)
-            ->leftJoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
-            ->leftJoin('users', 'users.id', '=', 'puzzles.user_id')
-            ->selectRaw('puzzles.name, puzzles.slug, users.name as owner, users.username, puzzle_templates.width, puzzle_templates.height, concat(from_unixtime(puzzles.timestamp_utc), \' GMT\') created')
-            ->orderBy('puzzles.timestamp_utc', 'desc')
-            ->take($limit)
-            ->get();
-        
-        return $puzzles;
+        return Puzzle::getPuzzles($limit);
     }
     
     public function showIncompletePuzzles(){
@@ -86,11 +78,13 @@ class PuzzleController extends Controller
             return array('errors' => array('Please log in'));
         }
         $p = Puzzle::with('clues')
+            ->whereNull('puzzles.deleted_timestamp_utc')
             ->with('puzzle_template')
             ->where('slug', $slug)
             ->first();
-        if ($p->user_id != $user->id){
-            return array('errors' => array('This is not your puzzle'));
+            
+        if (!$p || $p->user_id != $user->id){
+            return array('errors' => array('Puzzle not available'));
         }
 
         $p->clue_squares = $p->puzzle_template->clueSquares();
@@ -102,9 +96,14 @@ class PuzzleController extends Controller
     
     public function getPuzzle($slug){
         $p = Puzzle::with('clues')
+            ->whereNull('puzzles.deleted_timestamp_utc')
             ->with('puzzle_template')
             ->where('slug', $slug)
             ->first();
+        
+        if (!$p){
+            return array('errors' => array('Puzzle not available'));
+        }
         
         $p->clue_squares = $p->puzzle_template->clueSquares();
         $p->puzzle_squares = $p->puzzle_squares(false);
@@ -230,4 +229,37 @@ class PuzzleController extends Controller
         
         return $pgs;
     }
+    
+    public function deletePuzzle($slug){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors' => array('Please log in'));
+        }
+        $p = Puzzle::findBySlug($slug);
+        
+        if ($p->user_id != $user->id){
+            return array('errors', array('This isn\'t your puzzle'));
+        }
+        
+        return $p->delete();
+    }
+    
+    public function setName(){
+        $user = Auth::user();
+        if (!$user){
+            return array('errors' => array('Please log in'));
+        }
+        $p = Puzzle::findBySlug(Input::get('puzzle_slug'));
+        
+        if ($p->user_id != $user->id){
+            return array('errors', array('This isn\'t your puzzle'));
+        }
+        
+        $p->name = Input::get('name');
+        $p->slug = Puzzle::findSlug(Input::get('name'));
+        $p->save();
+        
+        return array('success' => 1, 'slug' => $p->slug);
+    }
+    
 }
