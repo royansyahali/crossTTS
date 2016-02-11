@@ -153,7 +153,7 @@ class Puzzle extends Model {
                         }
                     }
                     if (!$found_clue){
-                        if ($row == $pt->height || $squares[($row + 1).'-'.$col]['square_type'] != 'black'){
+                        if ($row == $pt->height || $squares[($row + 1).'-'.$col]['square_type'] == 'black'){
                             $missing_clues_for_one_letter_words[] = $ordinal.' down';
                         }else{
                             $missing_clues[] = $ordinal.' down';
@@ -168,7 +168,7 @@ class Puzzle extends Model {
                         }
                     }
                     if (!$found_clue){
-                        if ($col == $pt->width || $squares[$row.'-'.($col + 1)]['square_type'] != 'black'){
+                        if ($col == $pt->width || $squares[$row.'-'.($col + 1)]['square_type'] == 'black'){
                             $missing_clues_for_one_letter_words[] = $ordinal.' across';
                         }else{
                             $missing_clues[] = $ordinal.' across';

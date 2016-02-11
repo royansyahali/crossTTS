@@ -456,7 +456,7 @@ materialAdmin
                         return true;
                     }
                     r++;
-                    if (r == self.puzzle.puzzle_template.width + 1 || self.isBlackSquare(r, col)){
+                    if (r == self.puzzle.puzzle_template.height + 1 || self.isBlackSquare(r, col)){
                         keepLookingDown = false;
                     }
                 }
@@ -482,7 +482,7 @@ materialAdmin
                         return true;
                     }
                     c++;
-                    if (c == self.puzzle.puzzle_template.height + 1 || self.isBlackSquare(row, c)){
+                    if (c == self.puzzle.puzzle_template.width + 1 || self.isBlackSquare(row, c)){
                         keepLookingRight = false;
                     }
                 }

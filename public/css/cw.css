@@ -37,6 +37,9 @@
     left: 1px;
     top: 0px;
 }
+.abbr-puzzle-square.clue.small::before{
+    font-size: 6px;
+}
 .puzzle table td.selected-word{
     background-color:lightblue;
 }

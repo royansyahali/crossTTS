@@ -6,10 +6,10 @@
         <div class="card-body">
             <div class="puzzle">
                 <table>
-                    <tr ng-repeat="row in ptctrl.range(1,ptctrl.width)" >
+                    <tr ng-repeat="row in ptctrl.range(1,ptctrl.height)" >
                         <td 
                         ng-class="{'black' : ptctrl.isBlackSquare(row, col), 'clue' : ptctrl.clueNumber(row, col) > -1}" 
-                        ng-repeat="col in ptctrl.range(1, ptctrl.height)" 
+                        ng-repeat="col in ptctrl.range(1, ptctrl.width)" 
                         data-row="{{row}}" data-col="{{col}}"
                         data-clue-number="{{ptctrl.clueNumber(row, col) + 1}}"><div></div></td>
                     </tr>
