@@ -1,7 +1,7 @@
 <div class="pmb-block">
 
     <div class="contacts c-profile clearfix row">
-        <div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="t in pctrl.profile.templates">
+        <div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="t in pctrl.filterMyTemplates()">
             <div class="c-item">
                 <div class="abbr-puzzle-container">
                     <div class="abbr-puzzle" style="{{pctrl.customStyle(t)}}">
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="c-footer">
-                    <a class="btn btn-default waves-effect" href="#/puzzles/solve/{{p.puzzle_slug}}" style="width:100%;">Try it</a>
+                    <a class="btn btn-default waves-effect" href="#/puzzle-templates/{{t.slug}}" style="width:100%;">Try it</a>
                 </div>
             </div>
         </div>

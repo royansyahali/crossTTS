@@ -85,6 +85,7 @@ class User extends Authenticatable
         }
         return array(
             'username'                  => $this->username,
+            'user_id'                   => $this->id,
             'name'                      => $this->name,
             'profile_image_base_url'    => isset($this->twitter->profile_image_url) ? str_replace("_normal.jpeg", "", $this->twitter->profile_image_url) : "",
             'templates'                 => $templates,

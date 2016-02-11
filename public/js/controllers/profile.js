@@ -26,6 +26,16 @@ materialAdmin
             
         }
         
+        self.filterMyTemplates = function(){
+            var ret = [];
+            for (var i in self.profile.templates){
+                if (self.profile.templates[i].user_id == self.profile.user_id){
+                    ret.push(self.profile.templates[i]);
+                }
+            }
+            return ret;
+        }
+        
         self.range = function(min,max,step){
             step = step || 1;
             var input = [];
