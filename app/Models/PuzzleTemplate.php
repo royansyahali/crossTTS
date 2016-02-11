@@ -122,10 +122,11 @@ class PuzzleTemplate extends Model {
             ->where('slug', $slug)
             ->first();
             
-        $pt->blackSquares = $pt->blackSquares();
-        $pt->clueSquares = $pt->clueSquares();
-        
-        unset($pt->id);
+        if ($pt){
+            $pt->blackSquares = $pt->blackSquares();
+            $pt->clueSquares = $pt->clueSquares();
+            unset($pt->id);
+        }
         
         return $pt;
     }

@@ -8,18 +8,23 @@ materialAdmin
         self.forceSymmetry = true;
         self.blackSquares = [];
         self.clueSquares = [];
+        self.puzzleTemplate = {};
         
-        puzzleService.getPuzzleTemplate($location.path().substr(18,999)).success(function(d){
-            self.puzzleTemplate = d;
-            self.name = d.name;
-            self.width = d.width;
-            self.height = d.height;
-            self.owner = d.owner;
-            self.username = d.username;
-            self.forceSymmetry = d.symmetrical == 1;
-            self.blackSquares = d.blackSquares;
-            self.clueSquares = d.clueSquares;
-        });
+        if ($stateParams.puzzle_template_id){
+            puzzleService.getPuzzleTemplate($stateParams.puzzle_template_id).success(function(d){
+                self.puzzleTemplate = d;
+                self.name = d.name;
+                self.width = d.width;
+                self.height = d.height;
+                self.owner = d.owner;
+                self.username = d.username;
+                self.forceSymmetry = d.symmetrical == 1;
+                self.blackSquares = d.blackSquares;
+                self.clueSquares = d.clueSquares;
+            });
+        }else{
+            
+        }
         
         self.symmetryClick = function(){
             if (self.forceSymmetry){
@@ -91,6 +96,9 @@ materialAdmin
                     }
                 }else{
                     growlService.growl('Success!', 'success');
+                    $timeout(function(){
+                        $location.path('/puzzle-templates/' + d['slug']);
+                    },1000);
                 }
             }).error(function(d){
                 growlService.growl('There was an error: ' + d, 'danger');

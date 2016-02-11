@@ -6,6 +6,7 @@ Route::group(['middleware' => ['web']], function () {
     });
     
     Route::get('/puzzle_templates', 'PuzzleController@getPuzzleTemplates');
+    Route::get('/puzzle_templates/new', 'PuzzleController@getPuzzleTemplates');
     Route::get('/puzzle_templates/{slug}', 'PuzzleController@getPuzzleTemplate');
     Route::post('/puzzle_templates', 'PuzzleController@postPuzzleTemplate');
     
