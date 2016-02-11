@@ -230,7 +230,15 @@ class PuzzleController extends Controller
     public function postGuessSquare(){
         $user = Auth::user();
         if (!$user){
-            return array('errors' => array('Please log in'));
+            $user = new User;
+            $user->name = "temporary user";
+            $user->username = User::findUsername($user->name);
+            $user->active = 0;
+            $user->temporary = 1;
+            $user->created_timestamp_utc = time();
+            $user->updated_timestamp_utc = time();
+            $user->save();
+            Auth::login($user);
         }
         $args = Input::all();
         $args['user_id'] = $user->id;

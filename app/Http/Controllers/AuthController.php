@@ -50,13 +50,16 @@ class AuthController extends Controller
             $twitter_user->oauth_token = Input::get('oauth_token');
             $twitter_user->oauth_token_secret = Input::get('oauth_verifier');
             $twitter_user->save();
-            if (Auth::user()){
-                $user = Auth::user();
-                if ($user){
-                    $user->twitter_user_id = $twitter_user->id;
-                    $user->updated_timestamp_utc = time();
-                    $user->save();
-                }
+            $user = Auth::user();
+            if ($user && $user->temporary == 1){
+                Auth::logout();
+            }
+            $user = Auth::user();
+            if ($user){
+                $user->twitter_user_id = $twitter_user->id;
+                $user->updated_timestamp_utc = time();
+                $user->most_recent_ip = request()->ip();
+                $user->save();
             }else{
                 $user = User::where('twitter_user_id', $twitter_user->id)->first();
                 if (!$user){
@@ -73,9 +76,10 @@ class AuthController extends Controller
                     $user->twitter_user_id = $twitter_user->id;
                     $user->name = $twitter_user->name;
                     $user->created_timestamp_utc = time();
-                    $user->updated_timestamp_utc = time();
-                    $user->save();
                 }
+                $user->updated_timestamp_utc = time();
+                $user->most_recent_ip = request()->ip();
+                $user->save();
             }
             Auth::login($user);
             

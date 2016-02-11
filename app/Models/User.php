@@ -93,4 +93,16 @@ class User extends Authenticatable
             'twitter_handle'            => isset($this->twitter->screen_name) ? $this->twitter->screen_name : "",
         );
     }
+    
+    public static function findUsername($name){
+        $username = strtolower(preg_replace("/[^a-zA-Z\d]/", "-", $name));
+        $origslug = $username;
+        $exists = User::where('username', $username)->first();
+        $i = 0;
+        while ($exists){
+            $username = $origslug."-".$i++;
+            $exists = User::where('username', $username)->first();
+        }
+        return $username;
+    }
 }
