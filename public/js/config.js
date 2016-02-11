@@ -148,23 +148,18 @@ materialAdmin
                 templateUrl: 'views/profile.html'
             })
         
-            .state ('users.profile.about', {
-                url: '/about',
-                templateUrl: 'views/profile-about.html'
+            .state ('users.profile.puzzles-made', {
+                url: '/puzzles-made',
+                templateUrl: 'views/profile-puzzles-made.html'
             })
         
-            .state ('users.profile.timeline', {
-                url: '/timeline',
-                templateUrl: 'views/profile-timeline.html'
+            .state ('users.profile.templates-made', {
+                url: '/templates-made',
+                templateUrl: 'views/profile-templates-made.html'
             })
             
-            .state ('users.profile.photos', {
-                url: '/photos',
-                templateUrl: 'views/profile-photos.html',
-            })
-        
-            .state ('users.profile.connections', {
-                url: '/connections',
-                templateUrl: 'views/profile-connections.html'
+            .state ('users.profile.puzzles-worked', {
+                url: '/puzzles-worked',
+                templateUrl: 'views/profile-puzzles-worked.html',
             })
     });

@@ -27,10 +27,10 @@
     text-align: center;
     font-size:larger;
 }
-.puzzle table td.black{
+.puzzle table td.black, .abbr-puzzle-square.black{
     background-color:black;
 }
-.puzzle table td.clue::before{
+.puzzle table td.clue::before, .abbr-puzzle-square.clue::before{
     content: attr(data-clue-number);
     font-size: 9px;
     position: absolute;
@@ -91,4 +91,23 @@
     position:absolute;
     top: 15px;
     right: 15px;
+}
+.abbr-puzzle-container{
+    width:90%;
+    margin:4px auto;
+    position: relative;
+}
+.abbr-puzzle{
+    height: 0;
+    padding-bottom: 100%;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+.abbr-puzzle-row{
+    
+}
+.abbr-puzzle-square{
+    position:absolute;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
 }
