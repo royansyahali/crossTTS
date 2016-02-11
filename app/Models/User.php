@@ -43,8 +43,9 @@ class User extends Authenticatable
     }
     
     public function profile(){
-        $guesses = Puzzle::join('puzzle_guesses', 'puzzle_guesses.puzzle_id', '=', 'puzzles.id')
-            ->select('puzzles.slug', 'puzzles.name')
+        $guesses = Puzzle::leftJoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
+            ->join('puzzle_guesses', 'puzzle_guesses.puzzle_id', '=', 'puzzles.id')
+            ->selectRaw('puzzles.slug puzzle_slug, puzzles.name puzzle_name, puzzle_templates.slug template_slug')
             ->where('puzzle_guesses.user_id', $this->id)
             ->orderBy('updated_timestamp_utc', 'desc')
             ->get();

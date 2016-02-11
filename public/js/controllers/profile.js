@@ -15,6 +15,17 @@ materialAdmin
             return self.profile.templates[template_slug].clue_squares.indexOf(row + '-' + col);
         }
         
+        self.customStyle = function(t){
+            if (t.width > t.height){
+                return 'padding-bottom: ' + 100*t.height/t.width + '%;';
+            }else if (t.width > t.height){
+                return 'padding-bottom: ' + 100*t.height/t.width + '%;';
+            }else{
+                return '';
+            }
+            
+        }
+        
         self.range = function(min,max,step){
             step = step || 1;
             var input = [];

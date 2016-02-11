@@ -4,7 +4,7 @@
         <div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="t in pctrl.profile.templates">
             <div class="c-item">
                 <div class="abbr-puzzle-container">
-                    <div class="abbr-puzzle">
+                    <div class="abbr-puzzle" style="{{pctrl.customStyle(t)}}">
                         <div class="abbr-puzzle-row" ng-repeat="row in pctrl.range(1,t.height)">
                             <div 
                                 ng-repeat="col in pctrl.range(1,t.width)"
