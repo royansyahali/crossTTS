@@ -105,6 +105,11 @@ materialAdmin
                     if (received['errors']){
                         for(e in received['errors']){
                             growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                            if (received['errors'][e] == 'Please log in'){
+                                $timeout(function(){
+                                    $location.path('/');
+                                },1000);
+                            }
                         }
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                     }else{
@@ -145,6 +150,11 @@ materialAdmin
                             if (received['errors']){
                                 for(e in received['errors']){
                                     growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                                    if (received['errors'][e] == 'Please log in'){
+                                        $timeout(function(){
+                                            $location.path('/');
+                                        },1000);
+                                    }
                                 }
                                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                             }
@@ -168,6 +178,11 @@ materialAdmin
                             if (received['errors']){
                                 for(e in received['errors']){
                                     growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                                    if (received['errors'][e] == 'Please log in'){
+                                        $timeout(function(){
+                                            $location.path('/');
+                                        },1000);
+                                    }
                                 }
                                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                             }

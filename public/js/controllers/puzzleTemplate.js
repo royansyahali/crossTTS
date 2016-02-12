@@ -93,6 +93,9 @@ materialAdmin
                 if (d['errors']){
                     for(e in d['errors']){
                         growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                        $timeout(function(){
+                            $location.path('/');
+                        },1000);
                     }
                 }else{
                     growlService.growl('Success!', 'success');
@@ -102,6 +105,9 @@ materialAdmin
                 }
             }).error(function(d){
                 growlService.growl('There was an error: ' + d, 'danger');
+                $timeout(function(){
+                    $location.path('/');
+                },1000);
             });
         }
         
@@ -113,12 +119,18 @@ materialAdmin
                 if (d['errors']){
                     for(e in d['errors']){
                         growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                        $timeout(function(){
+                            $location.path('/');
+                        },1000);
                     }
                 }else{
                     $location.path('/puzzles/edit/' + d['slug']);
                 }
             }).error(function(d){
                 growlService.growl('There was an error: ' + d, 'danger');
+                $timeout(function(){
+                    $location.path('/');
+                },1000);
             });
         }
         

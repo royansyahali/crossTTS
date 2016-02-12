@@ -95,6 +95,11 @@ materialAdmin
                 if (d['errors']){
                     for(e in d['errors']){
                         growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                        if (d['errors'][e] == 'Please log in'){
+                            $timeout(function(){
+                                $location.path('/');
+                            },1000);
+                        }
                     }
                 }else{
                     var pad = "0000";
@@ -126,6 +131,11 @@ materialAdmin
                         if (d['errors']){
                             for(e in d['errors']){
                                 growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                                if (d['errors'][e] == 'Please log in'){
+                                    $timeout(function(){
+                                        $location.path('/');
+                                    },1000);
+                                }
                             }
                         }else{
                             self.suggestions = d['suggestions'];
@@ -154,6 +164,11 @@ materialAdmin
                         if (d['errors']){
                             for(e in d['errors']){
                                 growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                                if (d['errors'][e] == 'Please log in'){
+                                    $timeout(function(){
+                                        $location.path('/');
+                                    },1000);
+                                }
                             }
                         }else{
                             self.problems = d['problems'];
@@ -191,6 +206,11 @@ materialAdmin
                 if (d['errors']){
                     for(e in d['errors']){
                         growlService.growl('There was an error: ' + d['errors'][e], 'danger');
+                        if (d['errors'][e] == 'Please log in'){
+                            $timeout(function(){
+                                $location.path('/');
+                            },1000);
+                        }
                     }
                 }else{
                     self.editName = false;
@@ -240,6 +260,11 @@ materialAdmin
                     if (received['errors']){
                         for(e in received['errors']){
                             growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                            if (received['errors'][e] == 'Please log in'){
+                                $timeout(function(){
+                                    $location.path('/');
+                                },1000);
+                            }
                         }
                         self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                     }
@@ -276,6 +301,11 @@ materialAdmin
                             if (received['errors']){
                                 for(e in received['errors']){
                                     growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                                    if (received['errors'][e] == 'Please log in'){
+                                        $timeout(function(){
+                                            $location.path('/');
+                                        },1000);
+                                    }
                                 }
                                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                             }
@@ -299,6 +329,11 @@ materialAdmin
                             if (received['errors']){
                                 for(e in received['errors']){
                                     growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                                    if (received['errors'][e] == 'Please log in'){
+                                        $timeout(function(){
+                                            $location.path('/');
+                                        },1000);
+                                    }
                                 }
                                 self.puzzle.puzzle_squares[self.selectedRow + '-' + self.selectedCol].letter = oldLetter;
                             }
@@ -521,6 +556,11 @@ materialAdmin
                 if (received['errors']){
                     for(e in received['errors']){
                         growlService.growl('There was an error: ' + received['errors'][e], 'danger');
+                        if (received['errors'][e] == 'Please log in'){
+                            $timeout(function(){
+                                $location.path('/');
+                            },1000);
+                        }
                     }
                 }
                 growlService.growl('Success: this puzzle has been deleted', 'info');
