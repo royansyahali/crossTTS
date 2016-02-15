@@ -25,7 +25,7 @@ class PuzzleController extends Controller
     public function showIncompletePuzzles(){
         $user = Auth::user();
         if (!$user){
-            return array('errors', array('Please log in'));
+            return array('errors' => array('Please log in'));
         }
         $puzzles = Puzzle::getIncompletePuzzlesByUser($user);
         
@@ -35,10 +35,10 @@ class PuzzleController extends Controller
     public function postPuzzle(){
         $user = Auth::user();
         if (!$user){
-            return array('errors', array('Please log in'));
+            return array('errors' => array('Please log in'));
         }
         if (!Input::has('template_slug')){
-            return array('errors', array('No puzzle template selected'));
+            return array('errors' => array('No puzzle template selected'));
         }
         $p = new Puzzle;
 
@@ -142,7 +142,7 @@ class PuzzleController extends Controller
     public function postPuzzleTemplate(){
         $user = Auth::user();
         if (!$user){
-            return array('errors', array('Please log in'));
+            return array('errors' => array('Please log in'));
         }
         
         $pt = new PuzzleTemplate;
@@ -187,7 +187,7 @@ class PuzzleController extends Controller
         $p = Puzzle::findBySlug($slug);
         
         if ($p->user_id != $user->id){
-            return array('errors', array('This isn\'t your puzzle'));
+            return array('errors' => array('This isn\'t your puzzle'));
         }
         
         return PuzzleSquare::findSuggestion($p, $row, $col);
@@ -201,7 +201,7 @@ class PuzzleController extends Controller
         $p = Puzzle::findBySlug($slug);
         
         if ($p->user_id != $user->id){
-            return array('errors', array('This isn\'t your puzzle'));
+            return array('errors' => array('This isn\'t your puzzle'));
         }
         
         return $p->findProblemSquares();
@@ -256,7 +256,7 @@ class PuzzleController extends Controller
         $p = Puzzle::findBySlug($slug);
         
         if ($p->user_id != $user->id){
-            return array('errors', array('This isn\'t your puzzle'));
+            return array('errors' => array('This isn\'t your puzzle'));
         }
         
         return $p->delete();
@@ -270,7 +270,7 @@ class PuzzleController extends Controller
         $p = Puzzle::findBySlug(Input::get('puzzle_slug'));
         
         if ($p->user_id != $user->id){
-            return array('errors', array('This isn\'t your puzzle'));
+            return array('errors' => array('This isn\'t your puzzle'));
         }
         
         $p->name = Input::get('name');
