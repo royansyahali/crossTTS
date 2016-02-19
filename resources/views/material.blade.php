@@ -121,6 +121,7 @@
         <script src="js/controllers/dashboard.js"></script>
         <script src="js/controllers/table.js"></script>
         <script src="js/controllers/profile.js"></script>
+        <script src="js/controllers/puzzle.js"></script>
         <script src="js/controllers/puzzleEdit.js"></script>
         <script src="js/controllers/puzzleSolve.js"></script>
         <script src="js/controllers/puzzles.js"></script>
@@ -134,6 +135,9 @@
         <!-- Services -->
         <script src="js/services/profile.js"></script>
         <script src="js/services/puzzle.js"></script>
+
+        <!-- Factories -->
+        <script src="js/factories/error.js"></script>
 
         <!-- Filters -->
         <script src="js/filters/ordinal.js"></script>

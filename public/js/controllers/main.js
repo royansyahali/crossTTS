@@ -3,7 +3,7 @@ materialAdmin
     // Base controller for common functions
     // =========================================================================
 
-    .controller('materialadminCtrl', function($timeout, $scope, $state, growlService, profileService){
+    .controller('materialadminCtrl', function($timeout, $scope, $state, growlService, profileService, errorFactory){
         
         // Detact Mobile Browser
         if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
@@ -55,10 +55,12 @@ materialAdmin
                 this.profileBgImage = {'background-image': 'url(' + d.profile_background_image_url + ')',
                 'background-size': 'cover'};
             }
-        }));
+        })).error(function(data, code){
+            errorFactory.handleErrors(data, code);
+        });
         
         this.logout = function(){
-            profileService.logout().success(function(){
+            profileService.logout().then(function(){
                 location.href = '/';
             });
         };

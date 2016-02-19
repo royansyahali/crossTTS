@@ -1,10 +1,12 @@
 materialAdmin
-    .controller('profileCtrl', function($scope, $location, $stateParams, $timeout, growlService, profileService) {
+    .controller('profileCtrl', function($scope, $location, $stateParams, $timeout, growlService, profileService, errorFactory) {
         var self = this;
         self.profile = {};
         
         profileService.getProfile($stateParams.username).success(function(d){
             self.profile = d;
+        }).error(function(data, code){
+            errorFactory.handleErrors(data, code);
         });
         
         self.isBlackSquare = function(template_slug, row, col){
