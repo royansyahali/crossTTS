@@ -113,7 +113,7 @@ class Puzzle extends Model {
         return compact('impossibles', 'problems');
     }
     
-    public function activate($sure = false){
+    public function activate($user, $sure = false){
         $missing_clues = array();
         $missing_clues_for_one_letter_words = array();
         $missing_letters = array();
@@ -157,6 +157,39 @@ class Puzzle extends Model {
                             $missing_clues_for_one_letter_words[] = $ordinal.' down';
                         }else{
                             $missing_clues[] = $ordinal.' down';
+                        }
+                    }
+                    //find word
+                    $word = "";
+                    for($word_row = $row; $word_row <= $pt->height && $squares[$word_row.'-'.$col]['square_type'] != 'black'; $word_row++){
+                        $word .= $squares[$word_row.'-'.$col]['letter'];
+                    }
+                    $word_db = Word::where('word', $word)->first();
+                    if (!$word_db){
+                        $word_db = new Word;
+                        $word_db->word = $word;
+                        $word_db->length = strlen($word);
+                        $word_db->user_id = $user->id;
+                        $word_db->timestamp_utc = time();
+                        $word_db->save();
+                        for($i = 0; $i < strlen($word); $i++){
+                            $letter = new Letter;
+                            $letter->letter = substr($word, $i, 1);
+                            $letter->word_id = $word_db->id;
+                            $letter->ordinal = $i+1;
+                            $letter->save();
+                        }
+                    }
+                    if ($found_clue){
+                        $clue_available = ClueAvailable::where('word_id', $word_db->id)
+                            ->where('clue', $found_clue->clue)
+                            ->first();
+                        if (!$clue_available){
+                            $clue_available = new ClueAvailable;
+                            $clue_available->word_id = $word_db->id;
+                            $clue_available->clue = $found_clue->clue;
+                            $clue_available->timestamp_utc = time();
+                            $clue_available->save();
                         }
                     }
                 }

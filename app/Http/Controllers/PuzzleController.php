@@ -82,7 +82,7 @@ class PuzzleController extends Controller
             $returnData = array('errors' => array($msg));
             return response()->json($returnData, 401);
         }
-        return $p->activate();
+        return $p->activate($user);
     }
     
     public function getPuzzleForEdit($slug){
