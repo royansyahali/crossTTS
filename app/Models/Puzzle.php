@@ -186,6 +186,7 @@ class Puzzle extends Model {
             );
         }else{
             $this->active = 1;
+            $this->timestamp_utc = time();
             $this->save();
             
             return array('success' => 1);
@@ -242,11 +243,11 @@ class Puzzle extends Model {
     public static function findSlug($name){
         $slug = strtolower(preg_replace("/[^a-zA-Z\d]/", "-", $name));
         $origslug = $slug;
-        $exists = Puzzle::where('slug', $slug)->first();
+        $exists = self::where('slug', $slug)->first();
         $i = 0;
         while ($exists){
             $slug = $origslug."-".$i++;
-            $exists = Puzzle::where('slug', $slug)->first();
+            $exists = self::where('slug', $slug)->first();
         }
         return $slug;
     }
@@ -254,18 +255,18 @@ class Puzzle extends Model {
     public static function getIncompletePuzzlesByUser($user){
         return self::leftjoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
             ->leftjoin('users', 'users.id', '=', 'puzzles.user_id')
-            ->select('puzzles.name', 'puzzles.slug', 'puzzles.timestamp_utc', 'puzzle_templates.width', 'puzzle_templates.height', 'users.name as owner', 'users.username')
+            ->selectRaw('puzzles.name, puzzles.slug, puzzles.timestamp_utc*1000 created, puzzle_templates.width, puzzle_templates.height, users.name as owner, users.username')
             ->where('puzzles.user_id', $user->id)
             ->whereNull('puzzles.deleted_timestamp_utc')
             ->where('puzzles.active', 0)->get();
     }
     
     public static function getPuzzles($limit){
-        return Puzzle::where('puzzles.active', 1)
+        return self::where('puzzles.active', 1)
             ->whereNull('puzzles.deleted_timestamp_utc')
             ->leftJoin('puzzle_templates', 'puzzle_templates.id', '=', 'puzzles.puzzle_template_id')
             ->leftJoin('users', 'users.id', '=', 'puzzles.user_id')
-            ->selectRaw('puzzles.name, puzzles.slug, users.name as owner, users.username, puzzle_templates.width, puzzle_templates.height, concat(from_unixtime(puzzles.timestamp_utc), \' GMT\') created')
+            ->selectRaw('puzzles.name, puzzles.slug, users.name as owner, users.username, puzzle_templates.width, puzzle_templates.height, puzzles.timestamp_utc*1000 created')
             ->orderBy('puzzles.timestamp_utc', 'desc')
             ->take($limit)
             ->get();
