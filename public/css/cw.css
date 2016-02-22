@@ -133,7 +133,7 @@
     left: 5px;
     max-width: 60%;
 }
-@media (max-width:400px){
+@media (max-width:550px){
     .puzzleContainer{
         position: relative;
     }
@@ -142,7 +142,7 @@
         top: -63px;
     }
 }
-@media (max-width:600px){
+@media (max-width:800px){
     body #content {
         padding: 0px 0 !important;
         margin-top: -17px !important;

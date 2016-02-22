@@ -493,6 +493,15 @@ materialAdmin
             }
             self.selectedRow = row;
             self.selectedCol = col;
+            
+            var target = $('[data-clue-id=' + self.selectedClueOrdinal() + self.selectedDirection +']');
+            var container = $('.puzzle-edit-clues-container div');
+            if (target.length) {
+                $(container).animate({
+                    scrollTop: target.offset().top - container.offset().top
+                }, 1000);
+                return false;
+            }
         };
         
         self.deletePuzzle = function(){

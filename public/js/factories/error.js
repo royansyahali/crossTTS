@@ -9,6 +9,7 @@ materialAdmin
                         if (msg == 'Please log in'){
                             $timeout(function(){
                                 $location.path('/');
+                                window.reload();
                             },2000);
                         }
                     }
