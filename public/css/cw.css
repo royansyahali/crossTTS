@@ -96,7 +96,8 @@
     right: 15px;
 }
 .abbr-puzzle-outer-container{
-    height:110px;
+    height: 130px;
+    overflow: hidden;
 }
 .abbr-puzzle-container{
     width:90%;
