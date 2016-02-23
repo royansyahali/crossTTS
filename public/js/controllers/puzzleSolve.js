@@ -52,6 +52,9 @@ materialAdmin
                     };
                 }
             }
+            if (twttr.widgets){
+                twttr.widgets.load();
+            }
         }).error(function(data, code){
             errorFactory.handleErrors(data, code);
         });

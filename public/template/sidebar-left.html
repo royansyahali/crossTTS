@@ -2,7 +2,7 @@
     <div class="profile-menu">
         <a href="" ng-style="mactrl.profileBgImage" toggle-submenu>
             <div class="profile-pic">
-                <img ng-show="profile.logged_in" src="{{profile.profile_image_url}}" alt="">
+                <img ng-show="profile.logged_in && profile.profile_image_url != ''" src="{{profile.profile_image_url}}" alt="">
             </div>
 
             <div class="profile-info" ng-show="profile.logged_in">

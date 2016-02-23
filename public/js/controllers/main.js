@@ -51,7 +51,7 @@ materialAdmin
 
         profileService.getMe().success(angular.bind(this, function(d){
             $scope.profile = d;
-            if (d.logged_in){
+            if (d.logged_in && d.profile_background_image_url){
                 this.profileBgImage = {'background-image': 'url(' + d.profile_background_image_url + ')',
                 'background-size': 'cover'};
             }
