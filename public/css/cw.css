@@ -95,6 +95,9 @@
     top: 15px;
     right: 15px;
 }
+.abbr-puzzle-outer-container{
+    height:110px;
+}
 .abbr-puzzle-container{
     width:90%;
     margin:4px auto;

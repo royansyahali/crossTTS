@@ -1,7 +1,11 @@
 materialAdmin
-    .controller('profileCtrl', function($scope, $location, $stateParams, $timeout, growlService, profileService, errorFactory) {
+    .controller('profileCtrl', function($scope, $stateParams, $state, $timeout, growlService, profileService, errorFactory) {
         var self = this;
         self.profile = {};
+        
+        if ($state.current.name == 'users.profile'){
+            $state.go('users.profile.puzzles-worked');
+        }
         
         profileService.getProfile($stateParams.username).success(function(d){
             self.profile = d;
