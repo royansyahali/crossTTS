@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddSlugFieldToPuzzleTable extends Migration
 {
@@ -25,7 +26,7 @@ class AddSlugFieldToPuzzleTable extends Migration
     public function down()
     {
         Schema::table('puzzles', function (Blueprint $table) {
-            $table->dropForeign('puzzles_slug_unique');
+            // $table->dropForeign('puzzles_slug_unique');
             $table->dropColumn('slug');
         });
     }

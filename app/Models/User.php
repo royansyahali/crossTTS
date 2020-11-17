@@ -27,7 +27,7 @@ class User extends Authenticatable
 	public $timestamps = FALSE;
     
     public function twitter(){
-        return $this->belongsTo('App\Models\TwitterUser', 'twitter_user_id');
+        return $this->belongsTo('App\Models\GoogleUser', 'google_user_id');
     }
     
     public function puzzles(){

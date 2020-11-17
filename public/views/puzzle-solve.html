@@ -33,7 +33,8 @@
                         </tr>
                     </table>
                 </div>
-                <div ng-show="pctrl.puzzle.solved == 1">SOLVED!</div>
+                <div ng-show="pctrl.puzzle.solved == 1">Status: Selesai</div>
+                <div ng-show="pctrl.puzzle.solved == 0">Status: Belum Selesai</div>
             </div>
             <div class="puzzle-edit-clues-container">
                 <h3>Clues</h3>
@@ -57,7 +58,7 @@
     position: absolute;
     right: 10px;
     bottom: 10px;">
-            <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Try%20this%20crossword%20puzzle" data-size="large">.</a>
+            <!-- <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Try%20this%20crossword%20puzzle" data-size="large">.</a> -->
             <link rel="canonical" href="http://rnkpd.com/#/puzzles/solve/{{pctrl.puzzle.slug}}">
         </div>
     </div>

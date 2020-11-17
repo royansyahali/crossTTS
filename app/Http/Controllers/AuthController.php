@@ -8,7 +8,7 @@ use DB;
 use Redirect;
 use Socialite;
 
-use App\Models\TwitterUser;
+use App\Models\GoogleUser;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -20,7 +20,7 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('twitter')->redirect();
+        return Socialite::driver('google')->redirect();
     }
 
     /**
@@ -30,25 +30,25 @@ class AuthController extends Controller
      */
     public function handleProviderCallback()
     {
-        $package_from_twitter = Socialite::driver('twitter')->user();
+        $package_from_twitter = Socialite::driver('google')->user();
         if ($package_from_twitter){
-            $twitter_user = TwitterUser::where('twitter_id', $package_from_twitter->id)->first();
+            $twitter_user = GoogleUser::where('google_id', $package_from_twitter->id)->first();
             if (!$twitter_user){
-                $twitter_user = new TwitterUser;
+                $twitter_user = new GoogleUser();
             }
-            $twitter_user->twitter_id = $package_from_twitter->id;
+            $twitter_user->google_id = $package_from_twitter->id;
             $twitter_user->name = $package_from_twitter->name;
-            $twitter_user->screen_name = $package_from_twitter->nickname;
-            $twitter_user->description = $package_from_twitter->user['description'];
-            $twitter_user->utc_offset = $package_from_twitter->user['utc_offset'];
-            if (@$package_from_twitter->user['profile_banner_url']){
-                $twitter_user->profile_background_image_url = $package_from_twitter->user['profile_banner_url'];
-            }
-            $twitter_user->profile_image_url = $package_from_twitter->user['profile_image_url'];
+            // $twitter_user->screen_name = $package_from_twitter->nickname;
+            // $twitter_user->description = $package_from_twitter->user['description'];
+            // $twitter_user->utc_offset = $package_from_twitter->user['utc_offset'];
+            // if (@$package_from_twitter->user['profile_banner_url']){
+            // $twitter_user->profile_background_image_url = $package_from_twitter->user['profile_banner_url'];
+            // }
+            // $twitter_user->profile_image_url = $package_from_twitter->user['profile_image_url'];
             $twitter_user->updated_timestamp_utc = time();
             $twitter_user->created_timestamp_utc = time();
-            $twitter_user->oauth_token = Input::get('oauth_token');
-            $twitter_user->oauth_token_secret = Input::get('oauth_verifier');
+            // $twitter_user->oauth_token = Input::get('oauth_token');
+            // $twitter_user->oauth_token_secret = Input::get('oauth_verifier');
             $twitter_user->save();
             $user = Auth::user();
             if ($user && $user->temporary == 1){
@@ -56,15 +56,15 @@ class AuthController extends Controller
             }
             $user = Auth::user();
             if ($user){
-                $user->twitter_user_id = $twitter_user->id;
+                $user->google_user_id = $twitter_user->id;
                 $user->updated_timestamp_utc = time();
                 $user->most_recent_ip = request()->ip();
                 $user->save();
             }else{
-                $user = User::where('twitter_user_id', $twitter_user->id)->first();
+                $user = User::where('google_user_id', $twitter_user->id)->first();
                 if (!$user){
                     $user = new User;
-                    $username = $twitter_user->screen_name;
+                    $username = $twitter_user->name;
                     $orig_username = $username;
                     $i=0;
                     $username_exists = User::where('username', $username)->first();
@@ -73,7 +73,7 @@ class AuthController extends Controller
                         $username_exists = User::where('username', $username)->first();
                     }
                     $user->username = $username;
-                    $user->twitter_user_id = $twitter_user->id;
+                    $user->google_user_id = $twitter_user->id;
                     $user->name = $twitter_user->name;
                     $user->created_timestamp_utc = time();
                 }
@@ -85,7 +85,7 @@ class AuthController extends Controller
             
             return view('auth/killwindow');
         }else{
-            return abort(401, 'Apparently, Twitter didn\'t like you.');
+            return abort(401, 'Apparently, Google didn\'t like you.');
         }
     }
     public function getKillWindow(){
@@ -96,10 +96,11 @@ class AuthController extends Controller
         if ($user){
             return array(
                 'logged_in' => true,
+                // 'fullname' => $user->username,
                 'fullname' => $user->name,
-                'twitter_handle' => $user->twitter->screen_name,
-                'profile_background_image_url' => $user->twitter->profile_background_image_url,
-                'profile_image_url' => $user->twitter->profile_image_url,
+                // 'twitter_handle' => $user->twitter->screen_name,
+                // 'profile_background_image_url' => $user->twitter->profile_background_image_url,
+                // 'profile_image_url' => $user->twitter->profile_image_url,
                 'admin' => $user->admin,
                 'user_id' => $user->id
             );

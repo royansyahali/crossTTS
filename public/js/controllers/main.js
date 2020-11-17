@@ -48,6 +48,7 @@ materialAdmin
         
         $scope.profile = {};
         $scope.profile.logged_in = false;
+      
 
         profileService.getMe().success(angular.bind(this, function(d){
             $scope.profile = d;

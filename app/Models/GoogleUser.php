@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class TwitterUser extends Model {
-	protected $table = 'twitter_users';
+class GoogleUser extends Model {
+	protected $table = 'google_users';
 	public $timestamps = FALSE;
 }

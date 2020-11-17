@@ -21,7 +21,7 @@
 
     <ul class="main-menu">
         <li data-ui-sref-active="active" ng-hide="profile.logged_in">
-            <a href="#" onclick="window.open('/auth/twitter','auth','width=500,height=450');return false;"><i class="zmdi zmdi-sign-in"></i> Login</a>
+            <a href="#" onclick="window.open('/auth/google','auth','width=500,height=450');return false;"><i class="zmdi zmdi-sign-in"></i> Login</a>
         </li>
         <li data-ui-sref-active="active">
             <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
@@ -34,9 +34,9 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="puzzles.list" data-ng-click="mactrl.sidebarStat($event)">List</a></li>
             </ul>
         </li>
+ 
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('puzzle-templates') }">
             <a href="" toggle-submenu><i class="zmdi zmdi-collection-text"></i> Templates</a>
-
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="puzzle-templates.list" data-ng-click="mactrl.sidebarStat($event)">List</a></li>
                 <li><a data-ui-sref-active="active" data-ui-sref="puzzle-templates.new" data-ng-click="mactrl.sidebarStat($event)">+ New Puzzle Template</a></li>

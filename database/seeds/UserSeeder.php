@@ -9,8 +9,8 @@ class UserSeeder extends Seeder{
     public function run(){
         $users = array(
             array(
-                'username' => 'system',
-                'name' => 'system',
+                'username' => 'royanali123@gmail.com',
+                'name' => 'royanali123@gmail.com',
             ),
         );
         
@@ -20,6 +20,7 @@ class UserSeeder extends Seeder{
                 $u = new User;
                 $u->username = $user['username'];
                 $u->name = $user['name'];
+                $u->admin = 1;
                 $u->created_timestamp_utc = time();
                 $u->updated_timestamp_utc = time();
                 $u->save();

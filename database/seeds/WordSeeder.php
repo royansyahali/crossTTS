@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Letter;
 use App\Models\User;
 use App\Models\Word;
+use Illuminate\Support\Facades\File;
 
 class WordSeeder extends Seeder{
     public function run(){
         
-        $user = User::where('username', 'system')->first();
+        $user = User::where('username', 'royanali123@gmail.com')->first();
         
         $filename = "data/58000words.txt";
         $words_str = File::get($filename);
