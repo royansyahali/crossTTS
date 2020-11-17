@@ -24,7 +24,12 @@ class UserSeeder extends Seeder{
                 $u->created_timestamp_utc = time();
                 $u->updated_timestamp_utc = time();
                 $u->save();
+                
             }
+           
         }
+        $u = User::where('username', 'royanali123@gmail.com')->first();
+        $u->assignRole('admin');
+        // 
     }
 }
