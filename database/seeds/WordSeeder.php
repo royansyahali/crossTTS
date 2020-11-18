@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 class WordSeeder extends Seeder{
     public function run(){
         
-        $user = User::where('username', 'royanali123@gmail.com')->first();
+        $user = User::where('username', 'Royan Syah')->first();
         
         $filename = "data/58000words.txt";
         $words_str = File::get($filename);

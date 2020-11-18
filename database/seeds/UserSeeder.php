@@ -3,33 +3,37 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User;
+use App\Models\{User,GoogleUser};
 
 class UserSeeder extends Seeder{
     public function run(){
         $users = array(
-            array(
-                'username' => 'royanali123@gmail.com',
-                'name' => 'royanali123@gmail.com',
-            ),
+            'username' => 'Royan Syah',
+            'name' => 'Royan Syah',
         );
         
-        foreach($users as $user){
-            $u = User::where('username', $user['username'])->first();
-            if (!$u){
-                $u = new User;
-                $u->username = $user['username'];
-                $u->name = $user['name'];
-                $u->admin = 1;
-                $u->created_timestamp_utc = time();
-                $u->updated_timestamp_utc = time();
-                $u->save();
-                
-            }
-           
+        $u = User::where('username', $users['username'])->first();
+        $g = GoogleUser::where('name', $users['name'])->first();
+        if (!$g){
+            $g = new GoogleUser();
+            $g->name = $users['name'];
+            $g->google_id = '116233080712066290530';
+            $g->created_timestamp_utc = time();
+            $g->updated_timestamp_utc = time();
+            $g->save();
         }
-        $u = User::where('username', 'royanali123@gmail.com')->first();
-        $u->assignRole('admin');
-        // 
+        if (!$u){
+            $u = new User;
+            $u->username = $users['username'];
+            $u->name = $users['name'];
+            $u->admin = 1;
+            $u->remember_token= '8ZEFZGLUcDR7g0JNUXsiOGd6mRtowYbUAP1GYGg2Ot89Xxtkk8KrxNvYYqui';
+            $u->created_timestamp_utc = time();
+            $u->updated_timestamp_utc = time();
+            $u->google_user_id = 1;
+            $u->most_recent_ip = '127.0.0.1';
+            $u->save();
+            
+        }
     }
 }
