@@ -23,8 +23,10 @@
                             <table class="table table-inner table-vmiddle">
                                 <tbody>
                                     <tr data-ng-repeat="p in dctrl.puzzles">
-                                        <td><a href="/#/puzzles/solve/{{p.slug}}">{{ p.name }}</a></td>
-                                        <td>by <a href="/#/users/{{p.username}}">{{p.owner}}</a></td>
+                                        <td ng-show="{{profile.logged_in}}"><a href="/#/puzzles/solve/{{p.slug}}">{{ p.name }}</a></td>
+                                        <td ng-show="{{profile.logged_in}}">by <a href="/#/users/{{p.username}}">{{p.owner}}</a></td>
+                                        <td ng-show="{{!profile.logged_in}}">{{ p.name }}</td>
+                                        <td ng-show="{{!profile.logged_in}}">by {{p.owner}}</td>
                                         <td>{{p.created | date:'MMM d, yyyy h:mm a'}}</td>
                                     </tr>
                                 </tbody>
@@ -43,7 +45,8 @@
                             <table class="table table-inner table-vmiddle">
                                 <tbody>
                                     <tr data-ng-repeat="p in dctrl.incompletePuzzles">
-                                        <td><a href="/#/puzzles/edit/{{p.slug}}">{{ p.name }}</a></td>
+                                        <td ng-show="{{profile.logged_in}}"><a href="/#/puzzles/edit/{{p.slug}}">{{ p.name }}</a></td>
+                                        <td ng-show="{{!profile.logged_in}}">{{ p.name }}</td>
                                     </tr>
                                 </tbody>
                             </table>

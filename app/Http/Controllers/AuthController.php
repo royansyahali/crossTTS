@@ -94,13 +94,19 @@ class AuthController extends Controller
     public function getMe(){
         $user = Auth::user();
         if ($user){
+            if ($user->admin == true){
+                $img = asset('img/admin.png');
+            }else{
+                $img = asset('img/user.png');
+            }
             return array(
                 'logged_in' => true,
                 // 'fullname' => $user->username,
                 'fullname' => $user->name,
                 // 'twitter_handle' => $user->twitter->screen_name,
                 // 'profile_background_image_url' => $user->twitter->profile_background_image_url,
-                // 'profile_image_url' => $user->twitter->profile_image_url,
+                
+                'profile_image_url' => $img,
                 'admin' => $user->admin,
                 'user_id' => $user->id
             );

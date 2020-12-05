@@ -26,7 +26,7 @@
         <li data-ui-sref-active="active">
             <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
         </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('puzzles') }">
+        <li  ng-show="{{profile.logged_in}}" class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('puzzles') }">
             <a href="" toggle-submenu><i class="zmdi zmdi-puzzle-piece"></i> Puzzles</a>
 
             <ul>

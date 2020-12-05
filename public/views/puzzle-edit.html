@@ -53,7 +53,7 @@
                 </div>
                 <div class="clue-input-container" ng-show="pctrl.selectedRow > 0 && pctrl.selectedCol > 0">
                     <div>Clue for {{pctrl.selectedClueOrdinal() | number}} {{pctrl.selectedDirection}}:</div>
-                    <div style="margin-bottom:4px;"><input id="clue" ng-model="pctrl.selectedClueText" required/></div>
+                    <div style="margin-bottom:4px;"><input id="clue" ng-model="pctrl.selectedClueText"/></div>
                     <div class="btn btn-primary" ng-click="pctrl.saveClue()">Save Clue</div>
                 </div>
             </div>

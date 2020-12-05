@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('users table seeded');
         $this->call('WordSeeder');
         $this->command->info('words table seeded');
-        $this->call('RolePermission');
-        $this->command->info('role permission table seeded');
+        // $this->call('RolePermission');
+        // $this->command->info('role permission table seeded');
     }
 }
