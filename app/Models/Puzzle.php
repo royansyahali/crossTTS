@@ -156,7 +156,7 @@ class Puzzle extends Model {
                     }
                     if (!$found_clue){
                         if ($row == $pt->height || $squares[($row + 1).'-'.$col]['square_type'] == 'black'){
-                            $missing_clues_for_one_letter_words = array();
+                            // $missing_clues_for_one_letter_words[] = $ordinal.' accross';
                         }else{
                             $missing_clues = array();
                         }
@@ -204,7 +204,7 @@ class Puzzle extends Model {
                     }
                     if (!$found_clue){
                         if ($col == $pt->width || $squares[$row.'-'.($col + 1)]['square_type'] == 'black'){
-                            $missing_clues_for_one_letter_words = array();
+                            // $missing_clues_for_one_letter_words[] = $ordinal.' down';
                         }else{
                             $missing_clues = array();
                         }
@@ -215,11 +215,13 @@ class Puzzle extends Model {
                 }
             }
         }
+
         // DB::setFetchMode(PDO::FETCH_ASSOC);
         // // then
         // $missing_clues = DB::table('clues')->where('puzzle_id',$pt->id)->get(); // array of arrays instead of objects
         // // of course to revert the fetch mode you need to set it again
         // // DB::setFetchMode(PDO::FETCH_CLASS);
+
         if (count($missing_clues) > 0 || count($missing_letters) > 0 || (count($missing_clues_for_one_letter_words) > 0 && !$sure)){
             return array(
                 'errors' => compact('missing_clues', 'missing_letters', 'missing_clues_for_one_letter_words'),

@@ -29,13 +29,13 @@ materialAdmin
                                 if (d['errors']['missing_clues'].length > 0){
                                     msg += 'The following clue(s) are missing:\n';
                                     for(var i in d['errors']['missing_clues']){
-                                        msg += d['errors']['missing_clues'][i]+ '\n';
+                                        msg += d['errors']['missing_clues'][i]+'clue'+ '\n';
                                     }
                                 }
                                 if (d['errors']['missing_letters'].length > 0){
                                     msg += 'The following letter(s) are missing:\n';
                                     for(var i in d['errors']['missing_letters']){
-                                        msg += d['errors']['missing_letters'][i]+ '\n';
+                                        msg += d['errors']['missing_letters'][i]+'letter'+ '\n';
                                     }
                                 }
                                 swal(":(", "There was a problem. Sorry.\n" + msg, "error"); 

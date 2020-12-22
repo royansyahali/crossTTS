@@ -35,15 +35,15 @@
                 <table class="table table-striped table-vmiddle table-condensed ng-table" show-filter="true">
                     <thead>
                         <tr>
-                            <th class="header sortable" ng-click="ptctrl.changeSort('name')" ng-class="{'sort-asc': ptctrl.currentSort == 'name', 'sort-desc': ptctrl.currentSort == '-name'}"><div class="ng-table-header">Name</div></th>
-                            <th class="header sortable" ng-click="ptctrl.changeSort('width')" ng-class="{'sort-asc': ptctrl.currentSort == 'width', 'sort-desc': ptctrl.currentSort == '-width'}"><div class="ng-table-header">Width</div></th>
-                            <th class="header sortable" ng-click="ptctrl.changeSort('width')" ng-class="{'sort-asc': ptctrl.currentSort == 'height', 'sort-desc': ptctrl.currentSort == '-height'}"><div class="ng-table-header">Height</div></th>
-                            <th class="header sortable" ng-click="ptctrl.changeSort('width')" ng-class="{'sort-asc': ptctrl.currentSort == 'owner', 'sort-desc': ptctrl.currentSort == '-owner'}"><div class="ng-table-header">Owner</div></th>
-                            <th class="header sortable" ng-click="ptctrl.changeSort('created')" ng-class="{'sort-asc': ptctrl.currentSort == 'created', 'sort-desc': ptctrl.currentSort == '-created'}"><div class="ng-table-header">Created</div></th>
+                            <th class="header sortable"  ng-class="{'sort-asc': pctrl.currentSort == 'created', 'sort-desc': pctrl.currentSort == '-created'}"><div class="ng-table-header">Name</div></th>
+                            <th class="header sortable"  ng-class="{'sort-asc': pctrl.currentSort == 'width', 'sort-desc': pctrl.currentSort == '-width'}"><div class="ng-table-header">Width</div></th>
+                            <th class="header sortable"  ng-class="{'sort-asc': pctrl.currentSort == 'height', 'sort-desc': pctrl.currentSort == '-height'}"><div class="ng-table-header">Height</div></th>
+                            <th class="header sortable"  ng-class="{'sort-asc': pctrl.currentSort == 'owner', 'sort-desc': pctrl.currentSort == '-owner'}"><div class="ng-table-header">Owner</div></th>
+                            <th class="header sortable"  ng-class="{'sort-asc': pctrl.currentSort == 'created', 'sort-desc': pctrl.currentSort == '-created'}"><div class="ng-table-header">Created</div></th>
                         </tr>
                     </thead>
                     
-                    <tr ng-repeat="pt in ptctrl.puzzletemplates | orderBy:ptctrl.currentSort | filter:ptctrl.filterResults | startFrom:(ptctrl.currentPage-1)*ptctrl.pageSize | limitTo:ptctrl.pageSize">
+                    <tr ng-repeat="pt in ptctrl.puzzletemplates | orderBy:'created'  | startFrom:(ptctrl.currentPage-1)*ptctrl.pageSize | limitTo:ptctrl.pageSize">
                         <td><a href="#/puzzle-templates/{{pt.slug}}">{{pt.name}}</a></td>
                         <td>{{pt.width}}</td>
                         <td>{{pt.height}}</td>

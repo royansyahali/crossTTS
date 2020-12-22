@@ -10,14 +10,14 @@ use App\Models\GoogleUser;
 class UserSeeder extends Seeder{
     public function run(){
         $users = array(
-            'username' => 'Royan Syah',
-            'name' => 'Royan Syah',
+            'username' => 'admin atesa',
+            'name' => 'admin atesa',
            
         );
         
         $g= GoogleUser::create([
-            'name' => 'Royan Syah',
-            'google_id' => '116233080712066290530',
+            'name' => 'admin atesa',
+            'google_id' => '108210633736632634416',
             'created_timestamp_utc' => time(),
             'updated_timestamp_utc' => time(),
         ]);
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder{
             $u->updated_timestamp_utc = time();
             $u->save();
         }
-        $u = User::where('username', 'Royan Syah')->first();
+        $u = User::where('username', 'admin atesa')->first();
      
         // 
     }
